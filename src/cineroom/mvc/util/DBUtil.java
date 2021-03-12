@@ -38,14 +38,24 @@ public class DBUtil {
 	}
 	
 
-	public static void close(Connection con, Statement st, ResultSet rs) {
+	
+	public static void dbClose(Connection con, Statement st) {
+	  try {
+		if(st!=null) st.close();
+		if(con!=null) con.close();
+	  }catch (SQLException e){
+		  e.printStackTrace();
+	  }
+	 }
+	
+	
+	public static void dbClose(Connection con, Statement st, ResultSet rs) {
 		try {
-			if(rs != null) rs.close();
-			if(st != null) st.close();
-			if(con != null) con.close();
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
+			if(rs!=null) rs.close();
+			
+			dbClose(con,st);
+		  }catch (SQLException e){
+			  e.printStackTrace();
+		  }
 	}
 }
