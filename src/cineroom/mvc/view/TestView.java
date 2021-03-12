@@ -50,6 +50,7 @@ public class TestView {
 //		for(Genre g : genreList) {
 //			System.out.println(g);
 //		}
+		//¡¡æ∆ø‰
 		
 	}
 }
