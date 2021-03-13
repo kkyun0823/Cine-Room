@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 게시판의 글들을 저장하는 클래스
- * 댓글의 경우 리스트에 담아서 사용할 수 있다.
- * */
+ * 게시판의 글들을 저장하는 클래스 댓글의 경우 리스트에 담아서 사용할 수 있다.
+ */
 public class Board {
 	private int boardNo;
 	private String memberId;
@@ -15,7 +14,7 @@ public class Board {
 	private String boardContent;
 	private String boardDate;
 	private List<Comments> commentsList = new ArrayList<Comments>();
-	
+
 	public Board(int boardNo, String memberId, int movieNo, String boardTitle, String boardContent, String boardDate) {
 		super();
 		this.boardNo = boardNo;
@@ -81,5 +80,26 @@ public class Board {
 	public void setCommentsList(List<Comments> commentsList) {
 		this.commentsList = commentsList;
 	}
-	
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("| No : ");
+		builder.append(boardNo);
+		builder.append(" | ID : ");
+		builder.append(memberId);
+		builder.append(" | MOVIE NO : ");
+		builder.append(movieNo);
+		builder.append(" | 영화제목 : ");
+		builder.append(boardTitle);
+		builder.append(" | 한줄평 : ");
+		builder.append(boardContent);
+		builder.append(" | 등록일 : ");
+		builder.append(boardDate);
+		builder.append(" | 댓글 : ");
+		builder.append(commentsList);
+		builder.append(" |");
+		return builder.toString();
+	}
+
 }
