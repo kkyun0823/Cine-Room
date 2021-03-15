@@ -43,6 +43,12 @@ public class RateController {
 	}
 	
 	/**
+	 * 평점 수정하기 
+	 * */
+	
+	
+	
+	/**
 	 * 평점 삭제하기 
 	 * */
 	public int deleteMovieRate(Member member, Movie movie) {
