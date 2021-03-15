@@ -19,7 +19,7 @@ public class MenuView {
 	}
 
 	public static void printUserMenu() {
-		System.out.println("***椒 奩骨蝗棲棻!");
+		System.out.println( "***椒 奩骨蝗棲棻!");
 		System.out.println("忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
 		System.out.println("弛  1.艙�降侄�  |  2.ゎ薄  |  3.葬箔啪衛っ  |  4.葆檜む檜雖  |  9.煎斜嬴醒  弛");
 		System.out.println("戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎");
