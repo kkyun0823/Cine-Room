@@ -2,9 +2,13 @@ package cineroom.mvc.controller;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Scanner;
 
+import cineroom.mvc.model.dao.BoardDAOImpl;
 import cineroom.mvc.model.dto.Board;
 import cineroom.mvc.model.service.BoardService;
+import cineroom.mvc.view.EndView;
+import cineroom.mvc.view.FailView;
 import cineroom.mvc.view.TestBoardView;
 
 public class BoardController {
@@ -18,9 +22,9 @@ public class BoardController {
 
 		try {
 			List<Board> list = boardService.boardSelectAll();
-			TestBoardView.printBoardList(list);
+			EndView.printBoardList(list);
 		} catch (SQLException e) {
-			TestBoardView.printMessage(e.getMessage());
+			FailView.printMessage(e.getMessage());
 		}
 	}
 
@@ -51,10 +55,10 @@ public class BoardController {
 	/**
 	 * 글번호에 해당하는 게시물 검색
 	 */
-	public static void boardSelectByNo(int boardNo) {
+	public static void boardSelectByNo(Board board) {
 		try {
-			Board dto = boardService.boardSelectByNo(boardNo);
-			TestBoardView.printBoard(dto);
+			Board dto = boardService.boardSelect(board);
+			EndView.printBoard(dto);
 		} catch (SQLException e) {
 			TestBoardView.printMessage(e.getMessage());
 		}

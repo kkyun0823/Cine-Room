@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cineroom.mvc.model.dto.Board;
+import cineroom.mvc.model.dto.Comments;
 import cineroom.mvc.util.DBUtil;
 
 public class BoardDAOImpl implements BoardDAO {
@@ -18,7 +19,7 @@ public class BoardDAOImpl implements BoardDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<Board> list = new ArrayList<Board>();
-		String sql = "select board_no, member_id , movie_no, movie_title, board_title, board_content, board_date from board join movie using (movie_no)";
+		String sql = "select * from board join movie using (movie_no) LEFT JOIN COMMENTS USING (BOARD_NO)";
 		try {
 			con = DBUtil.getConnection();
 			ps = con.prepareStatement(sql);
@@ -27,13 +28,14 @@ public class BoardDAOImpl implements BoardDAO {
 				// 열 이동하면서 데이터 꺼내기...
 				int boardNo = rs.getInt("board_no");
 				String memberId = rs.getString("member_id");
-				int movieNo = rs.getInt("movie_no");
 				String movieTitle = rs.getString("movie_title");
 				String boardTitle = rs.getString("board_title");
 				String boardContent = rs.getString("board_content");
 				String boardDate = rs.getString("board_date");
-
-				Board dto = new Board(boardNo, memberId, movieNo, movieTitle ,boardTitle, boardContent, boardDate);
+				
+				List<Comments> commentsList = new ArrayList<Comments>();
+				
+				Board dto = new Board(boardNo, memberId, movieTitle ,boardTitle, boardContent, boardDate,commentsList);
 
 				list.add(dto);
 
@@ -51,7 +53,7 @@ public class BoardDAOImpl implements BoardDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<Board> list = new ArrayList<Board>();
-		String sql = "select board_no, member_id , movie_no, movie_title, board_title, board_content, board_date from board join movie using (movie_no) where genre_no = ?";
+		String sql = "select board_no, member_id , movie_title, board_title, board_content, board_date from board join movie using (movie_no) where genre_no = ?";
 		try {
 			con = DBUtil.getConnection();
 			ps = con.prepareStatement(sql);
@@ -60,13 +62,12 @@ public class BoardDAOImpl implements BoardDAO {
 			while (rs.next()) {
 				int boardNo = rs.getInt("board_no");
 				String memberId = rs.getString("member_id");
-				int movieNo = rs.getInt("movie_no");
 				String movieTitle = rs.getString("movie_title");
 				String boardTitle = rs.getString("board_title");
 				String boardContent = rs.getString("board_content");
 				String boardDate = rs.getString("board_date");
 
-				Board dto = new Board(boardNo, memberId, movieNo, movieTitle, boardTitle, boardContent, boardDate);
+				Board dto = new Board(boardNo, memberId,  movieTitle, boardTitle, boardContent, boardDate);
 
 				list.add(dto);
 			}
@@ -84,7 +85,7 @@ public class BoardDAOImpl implements BoardDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<Board> list = new ArrayList<Board>();
-		String sql = "select board_no, member_id , movie_no, movie_title, board_title, board_content, board_date from board join movie using (movie_no) where member_id = ?";
+		String sql = "select board_no, member_id , movie_title, board_title, board_content, board_date from board join movie using (movie_no) where member_id = ?";
 		try {
 			con = DBUtil.getConnection();
 			ps = con.prepareStatement(sql);
@@ -94,13 +95,13 @@ public class BoardDAOImpl implements BoardDAO {
 			while (rs.next()) {
 				int boardNo = rs.getInt("board_no");
 				String memberIds = rs.getString("member_id");
-				int movieNo = rs.getInt("movie_no");
+				
 				String movieTitle = rs.getString("movie_title");
 				String boardTitle = rs.getString("board_title");
 				String boardContent = rs.getString("board_content");
 				String boardDate = rs.getString("board_date");
 
-				Board dto = new Board(boardNo, memberIds, movieNo, movieTitle, boardTitle, boardContent, boardDate);
+				Board dto = new Board(boardNo, memberIds,  movieTitle, boardTitle, boardContent, boardDate);
 
 				list.add(dto);
 			}
@@ -112,21 +113,21 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public Board boardSelect(int boardNo) throws SQLException {
+	public Board boardSelect(Board board) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Board dto = null;
-		String sql = "select board_no, member_id , movie_no, movie_title, board_title, board_content, board_date from board join movie using (movie_no) where board_no = ?";
+		String sql = "select board_no, member_id , movie_title, board_title, board_content, board_date from board join movie using (movie_no) where board_no = ?";
 		try {
 			con = DBUtil.getConnection();
 			ps = con.prepareStatement(sql);
-			ps.setInt(1, boardNo);
+			ps.setInt(1, board.getBoardNo());
 
 			rs = ps.executeQuery();
 			if (rs.next()) {
-				dto = new Board(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getString(5),
-						rs.getString(6), rs.getString(7));
+				dto = new Board(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+						rs.getString(5), rs.getString(6));
 			}
 		} finally {
 			DBUtil.dbClose(con, ps, rs);

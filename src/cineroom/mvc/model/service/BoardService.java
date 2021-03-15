@@ -35,10 +35,10 @@ public class BoardService {
 		return list;
 	}
 
-	public Board boardSelectByNo(int boardNo) throws SQLException {
-		Board dto = boardDAO.boardSelect(boardNo);
+	public Board boardSelect(Board board) throws SQLException {
+		Board dto = boardDAO.boardSelect(board);
 		if (dto == null) {
-			throw new SQLException(boardNo + "에 해당하는 게시물은 없습니다.");
+			throw new SQLException("글 번호에 해당하는 게시물은 없습니다.");
 		}
 		return dto;
 	}

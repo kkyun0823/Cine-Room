@@ -16,6 +16,18 @@ public class Board {
 	private String boardDate;
 	List<Comments> commentsList = new ArrayList<Comments>();
 
+	public Board(int boardNo, String memberId, String movieTitle, String boardTitle, String boardContent,
+			String boardDate, List<Comments> commentsList) {
+		super();
+		this.boardNo = boardNo;
+		this.memberId = memberId;
+		this.movieTitle = movieTitle;
+		this.boardTitle = boardTitle;
+		this.boardContent = boardContent;
+		this.boardDate = boardDate;
+		this.commentsList = commentsList;
+	}
+
 	public Board(int boardNo, String memberId, int movieNo, String boardTitle, String boardContent, String boardDate) {
 		super();
 		this.boardNo = boardNo;
@@ -26,11 +38,10 @@ public class Board {
 		this.boardDate = boardDate;
 	}
 	
-	public Board(int boardNo, String memberId, int movieNo, String movieTitle, String boardTitle, String boardContent, String boardDate) {
+	public Board(int boardNo, String memberId,  String movieTitle, String boardTitle, String boardContent, String boardDate) {
 		super();
 		this.boardNo = boardNo;
 		this.memberId = memberId;
-		this.movieNo = movieNo;
 		this.movieTitle = movieTitle;
 		this.boardTitle = boardTitle;
 		this.boardContent = boardContent;
@@ -104,10 +115,8 @@ public class Board {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append(" | ID : ");
+		builder.append(" | 累己磊 ID : ");
 		builder.append(memberId);
-		builder.append(" | MOVIE NO : ");
-		builder.append(movieNo);
 		builder.append(" | 康拳力格 : ");
 		builder.append(movieTitle);
 		builder.append(" | 臂力格 : ");

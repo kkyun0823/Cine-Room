@@ -18,5 +18,20 @@ public class Session {
 		return "["+sessionId+"님 로그인 중입니다.]";
 	}
 	
+	@Override
+	public int hashCode() {
+		return sessionId.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		Session other = (Session) obj;
+		if(sessionId.equals(other.sessionId)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
 	
 }
