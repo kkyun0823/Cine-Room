@@ -52,15 +52,30 @@ public class TestBoardView {
 	/**
 	 * 글번호에 해당하는 게시판 검색 출력하기
 	 */
-	
+	public static void printBoardByNo(Board dto) {
+		System.out.println("┌──────────────────────┐");
+		System.out.println("│     Movie  |  " + dto.getMovieTitle() );
+		System.out.println("│     Title  |  " + dto.getBoardTitle());
+		System.out.println("│     Review |  " +dto.getBoardContent());
+		System.out.println("│     Writer |  " +dto.getMemberId());
+		System.out.println("│     Date   |  " +dto.getBoardDate());
+		System.out.println("└──────────────────────┘ ");
+		System.out.println("  <Comment>");
+		for(Comments com : dto.getCommentsList()) {
+			System.out.println(com);
+		}
+		System.out.println();
+	}
 
 	/**
-	 * ID,게시판 글에 해당하는 댓글 검색 출력하기
+	 * ID에 해당하는 댓글 검색 출력하기
 	 */
-	public static void printComments(List<Comments> list) {
+	public static void printCommentsList(List<Comments> list) {
 		System.out.println("------검색결과 (" + list.size() + "건)---------");
+		int i = 1;
 		for (Comments dto : list) {
-			System.out.println(dto);
+			System.out.println("댓글 " + i + " | ID : " + dto.getMemberId() + " | 내용 : " + dto.getCommentsContent() + " | 등록일 : " + dto.getCommentsDate());
+			i++;
 		}
 		System.out.println();
 	}
@@ -94,7 +109,11 @@ public class TestBoardView {
 		public static void printBoard(int no) {
 			
 		}
-	
+		
+		public static int getBoardNoByList (List<Board> list, int no) {
+			int boardNo = list.get(no-1).getBoardNo();
+			return boardNo;
+		}
 		
 	/**
 	 * 등록, 수정, 삭제인 경우에 성공메시지 출력
@@ -171,21 +190,26 @@ public class TestBoardView {
 		
 		
 
+		//1. 글조회 2. 댓글등록
 		
+		//해당되는 글번호를 입력해주세요 > 3
 		
 		// 게시판 전체글 검색
-		boardController.boardSelectByAll();
+		//boardController.boardSelectByAll();
 
 		// 장르번호에 해당하는 글 검색
-		// boardController.boardSelectByGenre(1);
-
+		//boardController.boardSelectByGenre(5);
+		
+		//List<Board> list = boardController.boardSelectByGenre(5);
+		//int boardNo = getBoardNoByList(list, 3);
+		
 		//System.out.println();
 		// ID에 해당하는 글 검색
-		// boardController.boardSelectByID("jungwoo123");
+		 //boardController.boardSelectByID("jungwoo123");
 
 		//System.out.println();
 		// 글번호에 해당하는 글 검색
-		// boardController.boardSelectByNo(5);
+		//boardController.boardSelectByNo(boardNo);
 
 		//System.out.println();
 		// 게시물 등록
@@ -203,7 +227,7 @@ public class TestBoardView {
 		//commentsController.commentsSelectByBoardNo(5);
 		
 		// ID에 해당하는 댓글 검색
-		// commentsController.commentsSelectByID("jungwoo123");
+		commentsController.commentsSelectByID("jungwoo123");
 
 		// 댓글 등록
 //		int boardNo = 9;

@@ -65,17 +65,12 @@ public class Comments {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("댓글 | No : ");
-		builder.append(commentsNo);
-		builder.append(" | 게시글No : ");
-		builder.append(boardNo);
-		builder.append(" | ID : ");
+		builder.append(" ID : ");
 		builder.append(memberId);
 		builder.append(" | 내용 : ");
 		builder.append(commentsContent);
 		builder.append(" | 등록일 : ");
 		builder.append(commentsDate);
-		builder.append(" |");
 		return builder.toString();
 	}
 
