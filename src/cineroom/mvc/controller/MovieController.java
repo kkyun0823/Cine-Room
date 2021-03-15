@@ -48,4 +48,21 @@ public class MovieController {
 		}
 	}
 	
+	public static void moviesSelectByActor(String actor) {
+		try {
+			List<Movie> list = movieService.moviesSelectByActor(actor);
+			EndView.printMovieList(list);
+		}catch (SQLException e) {
+			FailView.printMessage(e.getMessage());
+		}
+	}
+	
+	public static void moviesSelectByReleaseDate() {
+		try {
+			List<Movie> list = movieService.moviesSelectByReleaseDate();
+			EndView.printMovieList(list);
+		}catch (SQLException e) {
+			FailView.printMessage(e.getMessage());
+		}
+	}
 }
