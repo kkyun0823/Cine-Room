@@ -20,12 +20,11 @@ public class MemberDAOImpl implements MemberDAO {
 		Member member = null;
 		try {
 			con = DBUtil.getConnection();
-			ps = con.prepareStatement("select*from Member where member_id = ? and member_pwd = ?");
+			ps = con.prepareStatement("select * from Member where member_id = ? and member_password = ?");
 			ps.setString(1, memberId);
 			ps.setString(2, memberPassword);
 			
 			rs = ps.executeQuery();
-			
 			if(rs.next()) {
 				member = new Member(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5));
 			}
@@ -40,7 +39,7 @@ public class MemberDAOImpl implements MemberDAO {
 	public int signUp(Member member) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
-		String sql = "insert into member values (?, ?, ?, ?, ?)";
+		String sql = "insert into member values (?, ?, ?, ?, default)";
 		int result = 0;		
 		try {
 			con = DBUtil.getConnection();
@@ -49,10 +48,8 @@ public class MemberDAOImpl implements MemberDAO {
 			ps.setString(2, member.getMemberPassword());
 			ps.setString(3, member.getMemberName());
 			ps.setString(4, member.getMemberBirth());
-			ps.setInt(5, member.getMemberState());
 	
 			result = ps.executeUpdate();
-			
 		} finally {
 			DBUtil.dbClose(con, ps);
 		}

@@ -7,6 +7,8 @@ import java.util.Scanner;
 import cineroom.mvc.model.dao.BoardDAOImpl;
 import cineroom.mvc.model.dto.Board;
 import cineroom.mvc.model.service.BoardService;
+import cineroom.mvc.view.EndView;
+import cineroom.mvc.view.FailView;
 import cineroom.mvc.view.TestBoardView;
 
 public class BoardController {
@@ -20,9 +22,9 @@ public class BoardController {
 
 		try {
 			List<Board> list = boardService.boardSelectAll();
-			TestBoardView.printBoardList(list);
+			EndView.printBoardList(list);
 		} catch (SQLException e) {
-			TestBoardView.printMessage(e.getMessage());
+			FailView.printMessage(e.getMessage());
 		}
 	}
 
@@ -56,7 +58,7 @@ public class BoardController {
 	public static void boardSelectByNo(Board board) {
 		try {
 			Board dto = boardService.boardSelect(board);
-			TestBoardView.printBoard(dto);
+			EndView.printBoard(dto);
 		} catch (SQLException e) {
 			TestBoardView.printMessage(e.getMessage());
 		}

@@ -5,3 +5,4 @@ public class StartView {
 		MenuView.menu();
 	}
 }
+	

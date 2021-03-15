@@ -22,9 +22,9 @@ public class MovieService {
 		return list;
 	}
 	
-	public List<Movie> moviesSelectByGenre(int genreNo, String genreName) throws SQLException{
+	public List<Movie> moviesSelectByGenre(int genreNo) throws SQLException{
 		List<Movie> list = movieDao.moviesSelectByGenre(genreNo);
-		if(list.size()==0)throw new SQLException("ERROR : 장르'"+genreName+"'로 검색된 영화정보가 없습니다.");
+		if(list.size()==0)throw new SQLException("ERROR : 해당 장르로 검색된 영화정보가 없습니다.");
 		return list;
 	}
 	
