@@ -15,6 +15,7 @@ public class Movie {
 	private int runningTime;
 	private int movieState;
 	private String movieDirector;
+	private String genreName;
 	
 	private List<Rate> rateList = new ArrayList<Rate>();
 	private List<Actor> actorList = new ArrayList<Actor>();
@@ -104,5 +105,29 @@ public class Movie {
 	public void setActorList(List<Actor> actorList) {
 		this.actorList = actorList;
 	}
-	
+
+	public String getGenreName() {
+		return genreName;
+	}
+
+	public void setGenreName(String genreName) {
+		this.genreName = genreName;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("[영화제목=");
+		builder.append(movieTitle);
+		builder.append(", 장르=");
+		builder.append(genreName);
+		builder.append(", 개봉일=");
+		builder.append(releaseDate);
+		builder.append(", 상영시간=");
+		builder.append(runningTime);
+		builder.append(", 영화감독=");
+		builder.append(movieDirector);
+		builder.append("]");
+		return builder.toString();
+	}
 }

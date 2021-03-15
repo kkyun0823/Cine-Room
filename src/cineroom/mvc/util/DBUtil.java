@@ -15,9 +15,9 @@ public class DBUtil {
 	 */
 	static {
 		try {
-			//외부 properteis파일 로딩하기
+			// 외부 properteis파일 로딩하기
 			proFile.load(new FileInputStream("resources/dbInfo.properties"));
-			
+
 			Class.forName(proFile.getProperty("driverName"));
 
 		} catch (Exception e) {
@@ -25,37 +25,34 @@ public class DBUtil {
 		}
 	}
 
-	
 	public static Properties getProFile() {
 		return proFile;
 	}
 
 	public static Connection getConnection() throws SQLException {
-		return DriverManager.getConnection(
-				proFile.getProperty("url"),
-				proFile.getProperty("userName"),
+		return DriverManager.getConnection(proFile.getProperty("url"), proFile.getProperty("userName"),
 				proFile.getProperty("userPass"));
 	}
-	
 
-	
 	public static void dbClose(Connection con, Statement st) {
-	  try {
-		if(st!=null) st.close();
-		if(con!=null) con.close();
-	  }catch (SQLException e){
-		  e.printStackTrace();
-	  }
-	 }
-	
-	
+		try {
+			if (st != null)
+				st.close();
+			if (con != null)
+				con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static void dbClose(Connection con, Statement st, ResultSet rs) {
 		try {
-			if(rs!=null) rs.close();
-			
-			dbClose(con,st);
-		  }catch (SQLException e){
-			  e.printStackTrace();
-		  }
+			if (rs != null)
+				rs.close();
+
+			dbClose(con, st);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }
