@@ -25,8 +25,9 @@ public class MovieDAOImpl implements MovieDAO {
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				if(rs.getInt(4)!=-1) {
-					Movie dto = new Movie(0, 0, rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4),rs.getString(5));
+				if (rs.getInt(4) != -1) {
+					Movie dto = new Movie(0, 0, rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4),
+							rs.getString(5));
 					dto.setGenreName(rs.getString(6));
 					movieList.add(dto);
 				}
@@ -51,8 +52,9 @@ public class MovieDAOImpl implements MovieDAO {
 			ps.setString(1, "%" + movieTitle + "%");
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				if(rs.getInt(4)!=-1) {
-					Movie dto = new Movie(0, 0, rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4),rs.getString(5));
+				if (rs.getInt(4) != -1) {
+					Movie dto = new Movie(0, 0, rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4),
+							rs.getString(5));
 					dto.setGenreName(rs.getString(6));
 					movieList.add(dto);
 				}
@@ -68,7 +70,8 @@ public class MovieDAOImpl implements MovieDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select * from movie join genre using (genre_no) where genre_no = ?";
+		String sql = "select movie_title, to_char(release_date, 'YYYY-MM-DD'), running_time, movie_state, movie_director, genre_name"
+				+ " from movie join genre using (genre_no) where genre_no =  ?";
 		List<Movie> movieList = new ArrayList<Movie>();
 		try {
 			con = DBUtil.getConnection();
@@ -76,10 +79,10 @@ public class MovieDAOImpl implements MovieDAO {
 			ps.setInt(1, genreNo);
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				if(rs.getInt(6)!=-1) {
-					Movie dto = new Movie(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getInt(5),
-							rs.getInt(6), rs.getString(7));
-					dto.setGenreName(rs.getString(8));
+				if (rs.getInt(4) != -1) {
+					Movie dto = new Movie(0, 0, rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4),
+							rs.getString(5));
+					dto.setGenreName(rs.getString(6));
 					movieList.add(dto);
 				}
 			}
@@ -94,7 +97,8 @@ public class MovieDAOImpl implements MovieDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select * from movie join genre using (genre_no) where movie_director like ?";
+		String sql = "select movie_title, to_char(release_date, 'YYYY-MM-DD'), running_time, movie_state, movie_director, genre_name"
+				+ " from movie join genre using (genre_no) where movie_director like ?";
 		List<Movie> movieList = new ArrayList<Movie>();
 		try {
 			con = DBUtil.getConnection();
@@ -102,10 +106,10 @@ public class MovieDAOImpl implements MovieDAO {
 			ps.setString(1, "%" + movieDirector + "%");
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				if(rs.getInt(6)!=-1) {
-					Movie dto = new Movie(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getInt(5),
-							rs.getInt(6), rs.getString(7));
-					dto.setGenreName(rs.getString(8));
+				if (rs.getInt(4) != -1) {
+					Movie dto = new Movie(0, 0, rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4),
+							rs.getString(5));
+					dto.setGenreName(rs.getString(6));
 					movieList.add(dto);
 				}
 			}
@@ -162,13 +166,39 @@ public class MovieDAOImpl implements MovieDAO {
 			con = DBUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, movieNo);
-			
+
 			result = ps.executeUpdate();
 
 		} finally {
 			DBUtil.dbClose(con, ps);
 		}
 		return result;
+	}
+
+	@Override
+	public Movie movieSelectByNo(int movieNo) throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "select movie_title, to_char(release_date, 'YYYY-MM-DD'), running_time, movie_state, movie_director, genre_name "
+				+ "from movie join genre using (genre_no) where movie_no = ?";
+		Movie movie = null;
+		try {
+			con = DBUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, movieNo);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				if (rs.getInt(4) != -1) {
+					movie = new Movie(0, 0, rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4),
+							rs.getString(5));
+					movie.setGenreName(rs.getString(6));
+				}
+			}
+		} finally {
+			DBUtil.dbClose(con, ps, rs);
+		}
+		return movie;
 	}
 
 }

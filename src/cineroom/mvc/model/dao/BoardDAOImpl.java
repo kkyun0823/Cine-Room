@@ -9,6 +9,7 @@ import java.util.List;
 
 import cineroom.mvc.model.dto.Board;
 import cineroom.mvc.model.dto.Comments;
+import cineroom.mvc.model.dto.Movie;
 import cineroom.mvc.util.DBUtil;
 
 public class BoardDAOImpl implements BoardDAO {
@@ -137,7 +138,7 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public int boardInsert(Board board) throws SQLException {
+	public int boardInsert(Board board, Movie movie) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		String sql = "insert into board values (board_seq.nextval, ?, ?, ?, ?, sysdate)";
@@ -147,16 +148,13 @@ public class BoardDAOImpl implements BoardDAO {
 			con = DBUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setString(1, board.getMemberId());
-			ps.setInt(2, board.getMovieNo());
+			ps.setInt(2, movie.getMovieNo());
 			ps.setString(3, board.getBoardTitle());
 			ps.setString(4, board.getBoardContent());
-
 			result = ps.executeUpdate();
-
 		} finally {
 			DBUtil.dbClose(con, ps);
 		}
-
 		return result;
 	}
 

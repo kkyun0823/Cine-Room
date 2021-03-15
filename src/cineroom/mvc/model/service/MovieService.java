@@ -34,7 +34,10 @@ public class MovieService {
 		return list;
 	}
 	
-	
+	public Movie movieSelectByNo(int movieNo) throws SQLException{
+		Movie movie = movieDao.movieSelectByNo(movieNo);
+		return movie;
+	}
 	
 
 }

@@ -63,4 +63,9 @@ public interface MovieDAO {
 	 */
 	public int movieDelete(int movieNo) throws SQLException;
 
+	/**
+	 * 영화번호로 검색한 영화를 반환하는 메소드
+	 * */
+	public Movie movieSelectByNo(int movieNo) throws SQLException;
+
 }

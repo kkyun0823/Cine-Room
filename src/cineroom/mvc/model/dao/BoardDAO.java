@@ -5,6 +5,7 @@ import java.util.List;
 
 import cineroom.mvc.model.dto.Board;
 import cineroom.mvc.model.dto.Member;
+import cineroom.mvc.model.dto.Movie;
 
 public interface BoardDAO {
 	/**
@@ -38,7 +39,7 @@ public interface BoardDAO {
 	/**
 	 * 게시판에 글 등록
 	 */
-	public int boardInsert(Board board) throws SQLException;
+	public int boardInsert(Board board, Movie movie) throws SQLException;
 
 	/**
 	 * 게시판에 글 삭제
