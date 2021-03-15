@@ -6,6 +6,7 @@ import java.util.List;
 import cineroom.mvc.model.dao.BoardDAO;
 import cineroom.mvc.model.dao.BoardDAOImpl;
 import cineroom.mvc.model.dto.Board;
+import cineroom.mvc.model.dto.Movie;
 
 public class BoardService {
 
@@ -43,8 +44,8 @@ public class BoardService {
 		return dto;
 	}
 
-	public void boardInsert(Board board) throws SQLException {
-		int result = boardDAO.boardInsert(board);
+	public void boardInsert(Board board, Movie movie) throws SQLException {
+		int result = boardDAO.boardInsert(board, movie);
 		if (result == 0) {
 			throw new SQLException("등록되지 않았습니다.");
 		}

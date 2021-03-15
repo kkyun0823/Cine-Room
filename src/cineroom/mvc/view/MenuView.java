@@ -5,7 +5,10 @@ import java.util.Scanner;
 import cineroom.mvc.controller.BoardController;
 import cineroom.mvc.controller.MemberController;
 import cineroom.mvc.controller.MovieController;
+import cineroom.mvc.model.dto.Board;
 import cineroom.mvc.model.dto.Member;
+import cineroom.mvc.model.dto.Movie;
+import cineroom.mvc.session.Session;
 import cineroom.mvc.session.SessionSet;
 
 public class MenuView {
@@ -120,7 +123,7 @@ public class MenuView {
 				case 2:
 					break;
 				case 3:
-					MenuView.printBoardMenu();
+					MenuView.printBoardMenu(memberId);
 					break;
 				case 4:
 					break;
@@ -187,7 +190,6 @@ public class MenuView {
 				System.out.println("숫자로 입력해 주세요.");
 			}
 		}
-
 	}
 	
 	public static void printSearchGenre() {
@@ -207,6 +209,12 @@ public class MenuView {
 			}
 		}
 	}
+	
+	public static int selectMovieNo() {
+		System.out.print("선택하실 영화의 번호를 입력해주세요. > ");
+		int no = Integer.parseInt(sc.nextLine());
+		return no;
+	}
 
 	public static void printRateMenu() {
 		System.out.println("***********영화평점 메뉴입니다***********");
@@ -216,7 +224,7 @@ public class MenuView {
 		System.out.println();
 	}
 
-	public static void printBoardMenu() {
+	public static void printBoardMenu(String memberId) {
 		loop1:
 		while(true) {
 			System.out.println("***********리뷰 게시판 메뉴입니다***********");
@@ -235,7 +243,7 @@ public class MenuView {
 					MenuView.printSearchBoardByGenre();
 					break;
 				case 3:
-					MenuView.printInsertBoardMenu();
+					MenuView.printInsertBoardMenu(memberId);
 					break;
 				case 9:
 					break loop1;
@@ -276,9 +284,66 @@ public class MenuView {
 			}
 		}
 	}
+	public static int selectNo() {
+		System.out.println("리뷰를 작성할 영화의 순번을 입력해주세요. > ");
+		int x = Integer.parseInt(sc.nextLine());
+		return x;
+	}
 	
-	public static void printInsertBoardMenu() {
+	public static void printInsertBoardMenu(String memberId) {
+		int movieNo = 0;
+		loop1:
+			while(true) {
+				System.out.println("***********리뷰를 작성할 영화를 선택해 주세요***********");
+				System.out.println("┌──────────────────────────────────────────────────────────────────────┐");
+				System.out.println("│  1.전체영화  |  2.제목으로 검색  |  3.장르로 검색  |  4.감독으로 검색│");
+				System.out.println("│            5.배우로 검색  |  6.상영작 검색  |  9.이전메뉴            │");
+				System.out.println("└──────────────────────────────────────────────────────────────────────┘");
+				System.out.println();
+				try {
+					System.out.print("검색하실 조건을 숫자로 입력해주세요. > ");
+					int menu = Integer.parseInt(sc.nextLine());
+					switch (menu) {
+					case 1:
+						MovieController.moviesSelect();
+						movieNo = MovieController.getMovieNoForBoard();
+						break;
+					case 2:
+						System.out.print("검색하실 제목 키워드를 입력해주세요. > ");
+						String title = sc.nextLine();
+						MovieController.moviesSelectByTitle(title);
+						break;
+					case 3:
+						MenuView.printSearchGenre();
+						break;
+					case 4:
+						System.out.println("검색하실 감독 키워드를 입력해주세요. > ");
+						String director = sc.nextLine();
+						MovieController.moviesSelectByDirector(director);
+						break;
+					case 5:
+						break;
+					case 6:
+						break;
+					case 9 :
+						break loop1;
+					default:
+						System.out.println("범위내의 숫자를 입력해주세요.");
+						break;
+					}
+				}catch (NumberFormatException e) {
+					System.out.println("숫자로 입력해 주세요.");
+				}
+			}
 		//영화를 골라서 번호를 가져와야하는 issue
+		
+		System.out.print("제목을 입력 > ");
+		String title = sc.nextLine();
+		System.out.print("글내용을 입력 > ");
+		String content = sc.nextLine();
+		Board b =new Board(0, memberId, movieNo, title, content, null);
+		Movie m = new Movie(movieNo, 0, null, null, 0, 0, null);
+		BoardController.boardInsert(b, m);
 	}
 
 	public static void printMyPageMenu() {

@@ -15,7 +15,7 @@ public class Session {
 	}
 	@Override
 	public String toString() {
-		return "["+sessionId+"님 로그인 중입니다.]";
+		return sessionId+"님 로그인 중입니다.";
 	}
 	
 	@Override

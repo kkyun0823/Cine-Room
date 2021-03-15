@@ -8,8 +8,11 @@ import cineroom.mvc.model.dto.Movie;
 public class EndView {
 	public static void printMovieList(List<Movie> list) {
 		System.out.println("*****검색결과("+list.size()+"개)*****");
+		int i = 1;
 		for (Movie m : list) {
+			System.out.print("순번="+i+" ");
 			System.out.println(m);
+			i++;
 		}
 	}
 
