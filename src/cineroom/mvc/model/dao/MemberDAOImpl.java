@@ -35,7 +35,7 @@ public class MemberDAOImpl implements MemberDAO {
 		return member;
 	}
 
-	//회원가입 
+	//회원가입  
 	@Override
 	public int signUp(Member member) throws SQLException {
 		Connection con = null;
@@ -59,21 +59,19 @@ public class MemberDAOImpl implements MemberDAO {
 		return result;
 	}
 
-	//회원정보 수정  
+	//회원정보 수정  --선호장르수정  
+	
 	@Override
 	public int memberUpdate(Member member) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
-		String sql = "update into member values (?, ?, ?, ?, ?)";
+		String sql = "update member set member_password = ? where member_id = ?  ";
 		int result = 0;  //여기 뭐 들어가야하는지  모르겠음 
 		try {
 			con = DBUtil.getConnection();
 			ps = con.prepareStatement(sql);
-			ps.setString(1, member.getMemberId());
-			ps.setString(2, member.getMemberPassword());
-			ps.setString(3, member.getMemberName());
-			ps.setString(4, member.getMemberBirth());
-			ps.setInt(5, member.getMemberState());
+			ps.setString(1, member.getMemberPassword());
+			ps.setString(2, member.getMemberId());
 	
 			result = ps.executeUpdate();
 			

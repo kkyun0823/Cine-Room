@@ -23,7 +23,7 @@ import cineroom.mvc.view.TestView;
 			
 			try {
 				Member member = memberService.login(memberId, memberPassword);
-				MenuView.printUserMenu();
+				TestMemberView.printUserMenu();
 			}catch (Exception e) {
 				e.printStackTrace();
 			}
