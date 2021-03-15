@@ -22,7 +22,7 @@ public class BoardService {
 	public List<Board> boardSelectByGenre(int genreNo) throws SQLException {
 		List<Board> list = boardDAO.boardSelectByGenre(genreNo);
 		if (list == null || list.size() == 0 || list.isEmpty()) {
-			throw new SQLException("검색된 정보가 없습니다.");
+			throw new SQLException(genreNo + "에 해당하는 게시물은 없습니다.");
 		}
 		return list;
 	}
@@ -30,7 +30,7 @@ public class BoardService {
 	public List<Board> boardSelectByID(String memberId) throws SQLException {
 		List<Board> list = boardDAO.boardSelectByID(memberId);
 		if (list == null || list.size() == 0 || list.isEmpty()) {
-			throw new SQLException("검색된 정보가 없습니다.");
+			throw new SQLException(memberId + "에 해당하는 게시물은 없습니다.");
 		}
 		return list;
 	}

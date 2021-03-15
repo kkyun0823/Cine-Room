@@ -10,16 +10,28 @@ public class Board {
 	private int boardNo;
 	private String memberId;
 	private int movieNo;
+	private String movieTitle;
 	private String boardTitle;
 	private String boardContent;
 	private String boardDate;
-	private List<Comments> commentsList = new ArrayList<Comments>();
+	List<Comments> commentsList = new ArrayList<Comments>();
 
 	public Board(int boardNo, String memberId, int movieNo, String boardTitle, String boardContent, String boardDate) {
 		super();
 		this.boardNo = boardNo;
 		this.memberId = memberId;
 		this.movieNo = movieNo;
+		this.boardTitle = boardTitle;
+		this.boardContent = boardContent;
+		this.boardDate = boardDate;
+	}
+	
+	public Board(int boardNo, String memberId, int movieNo, String movieTitle, String boardTitle, String boardContent, String boardDate) {
+		super();
+		this.boardNo = boardNo;
+		this.memberId = memberId;
+		this.movieNo = movieNo;
+		this.movieTitle = movieTitle;
 		this.boardTitle = boardTitle;
 		this.boardContent = boardContent;
 		this.boardDate = boardDate;
@@ -47,6 +59,14 @@ public class Board {
 
 	public void setMovieNo(int movieNo) {
 		this.movieNo = movieNo;
+	}
+	
+	public String getMovieTitle() {
+		return movieTitle;
+	}
+
+	public void setMovieTitle(String movieTitle) {
+		this.movieTitle = movieTitle;
 	}
 
 	public String getBoardTitle() {
@@ -84,20 +104,20 @@ public class Board {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("| No : ");
-		builder.append(boardNo);
 		builder.append(" | ID : ");
 		builder.append(memberId);
 		builder.append(" | MOVIE NO : ");
 		builder.append(movieNo);
 		builder.append(" | 영화제목 : ");
+		builder.append(movieTitle);
+		builder.append(" | 글제목 : ");
 		builder.append(boardTitle);
 		builder.append(" | 한줄평 : ");
 		builder.append(boardContent);
 		builder.append(" | 등록일 : ");
 		builder.append(boardDate);
-		builder.append(" | 댓글 : ");
-		builder.append(commentsList);
+		builder.append(" | 댓글수 : ");
+		builder.append(commentsList.size());
 		builder.append(" |");
 		return builder.toString();
 	}

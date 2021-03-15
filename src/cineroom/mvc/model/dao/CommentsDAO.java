@@ -4,21 +4,25 @@ import java.sql.SQLException;
 import java.util.List;
 
 import cineroom.mvc.model.dto.Comments;
-import cineroom.mvc.model.dto.Member;
 
 public interface CommentsDAO {
 	/**
-	 * 사용자가 쓴 댓글 모아보기
+	 * 부모글번호에 대한 댓글 정보 검색하기
 	 * */
-	public List<Comments> commentsSelectByID(Member member) throws SQLException;
+	public List<Comments> commentsSelectByBoardNo(int boardNo) throws SQLException;
 	
 	/**
-	 * 댓글 추가하기
-	 * */
-	public int commentsAdd(Comments comments) throws SQLException;
-	
+	 * 사용자가 쓴 댓글 모아보기
+	 */
+	public List<Comments> commentsSelectByID(String memberId) throws SQLException;
+
+	/**
+	 * 댓글 등록하기
+	 */
+	public int commentsInsert(Comments comments) throws SQLException;
+
 	/**
 	 * 댓글 삭제하기
-	 * */
+	 */
 	public int commentsDelete(int commentsNo) throws SQLException;
 }

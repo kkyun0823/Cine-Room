@@ -30,7 +30,7 @@ public class BoardController {
 	public static void boardSelectByGenre(int genreNo) {
 		try {
 			List<Board> list = boardService.boardSelectByGenre(genreNo);
-			TestBoardView.printBoardList(list);
+			TestBoardView.printGenreBoardList(list);
 		} catch (SQLException e) {
 			TestBoardView.printMessage(e.getMessage());
 		}
@@ -74,7 +74,7 @@ public class BoardController {
 	}
 
 	/**
-	 * 게시물 삭제하기
+	 * 게시물 삭제
 	 */
 	public static void boardDelete(int boardNo) {
 		try {

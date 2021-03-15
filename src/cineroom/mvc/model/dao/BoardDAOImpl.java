@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cineroom.mvc.model.dto.Board;
-import cineroom.mvc.model.dto.Member;
 import cineroom.mvc.util.DBUtil;
 
 public class BoardDAOImpl implements BoardDAO {
@@ -19,7 +18,7 @@ public class BoardDAOImpl implements BoardDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<Board> list = new ArrayList<Board>();
-		String sql = "select * from board";
+		String sql = "select board_no, member_id , movie_no, movie_title, board_title, board_content, board_date from board join movie using (movie_no)";
 		try {
 			con = DBUtil.getConnection();
 			ps = con.prepareStatement(sql);
@@ -29,11 +28,12 @@ public class BoardDAOImpl implements BoardDAO {
 				int boardNo = rs.getInt("board_no");
 				String memberId = rs.getString("member_id");
 				int movieNo = rs.getInt("movie_no");
+				String movieTitle = rs.getString("movie_title");
 				String boardTitle = rs.getString("board_title");
 				String boardContent = rs.getString("board_content");
 				String boardDate = rs.getString("board_date");
 
-				Board dto = new Board(boardNo, memberId, movieNo, boardTitle, boardContent, boardDate);
+				Board dto = new Board(boardNo, memberId, movieNo, movieTitle ,boardTitle, boardContent, boardDate);
 
 				list.add(dto);
 
@@ -51,7 +51,7 @@ public class BoardDAOImpl implements BoardDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<Board> list = new ArrayList<Board>();
-		String sql = "select board_no, member_id , movie_no, board_title, board_content, board_date from board join movie using (movie_no) where genre_no = ?";
+		String sql = "select board_no, member_id , movie_no, movie_title, board_title, board_content, board_date from board join movie using (movie_no) where genre_no = ?";
 		try {
 			con = DBUtil.getConnection();
 			ps = con.prepareStatement(sql);
@@ -61,11 +61,12 @@ public class BoardDAOImpl implements BoardDAO {
 				int boardNo = rs.getInt("board_no");
 				String memberId = rs.getString("member_id");
 				int movieNo = rs.getInt("movie_no");
+				String movieTitle = rs.getString("movie_title");
 				String boardTitle = rs.getString("board_title");
 				String boardContent = rs.getString("board_content");
 				String boardDate = rs.getString("board_date");
 
-				Board dto = new Board(boardNo, memberId, movieNo, boardTitle, boardContent, boardDate);
+				Board dto = new Board(boardNo, memberId, movieNo, movieTitle, boardTitle, boardContent, boardDate);
 
 				list.add(dto);
 			}
@@ -83,7 +84,7 @@ public class BoardDAOImpl implements BoardDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<Board> list = new ArrayList<Board>();
-		String sql = "select * from board where member_id = ?";
+		String sql = "select board_no, member_id , movie_no, movie_title, board_title, board_content, board_date from board join movie using (movie_no) where member_id = ?";
 		try {
 			con = DBUtil.getConnection();
 			ps = con.prepareStatement(sql);
@@ -94,11 +95,12 @@ public class BoardDAOImpl implements BoardDAO {
 				int boardNo = rs.getInt("board_no");
 				String memberIds = rs.getString("member_id");
 				int movieNo = rs.getInt("movie_no");
+				String movieTitle = rs.getString("movie_title");
 				String boardTitle = rs.getString("board_title");
 				String boardContent = rs.getString("board_content");
 				String boardDate = rs.getString("board_date");
 
-				Board dto = new Board(boardNo, memberIds, movieNo, boardTitle, boardContent, boardDate);
+				Board dto = new Board(boardNo, memberIds, movieNo, movieTitle, boardTitle, boardContent, boardDate);
 
 				list.add(dto);
 			}
@@ -115,7 +117,7 @@ public class BoardDAOImpl implements BoardDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Board dto = null;
-		String sql = "select * from board where board_no = ?";
+		String sql = "select board_no, member_id , movie_no, movie_title, board_title, board_content, board_date from board join movie using (movie_no) where board_no = ?";
 		try {
 			con = DBUtil.getConnection();
 			ps = con.prepareStatement(sql);
@@ -124,7 +126,7 @@ public class BoardDAOImpl implements BoardDAO {
 			rs = ps.executeQuery();
 			if (rs.next()) {
 				dto = new Board(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getString(5),
-						rs.getString(6));
+						rs.getString(6), rs.getString(7));
 			}
 		} finally {
 			DBUtil.dbClose(con, ps, rs);
