@@ -69,11 +69,11 @@ public class BoardController {
 	/**
 	 * 게시물 등록
 	 */
-	public static void boardInsert(Board board,Movie movie) {
+	public static void boardInsert(Board board) {
 		try {
 			//영화 검색메뉴를 띄우고 , 영화 객체를 받아오기
 			
-			boardService.boardInsert(board, movie);
+			boardService.boardInsert(board);
 			TestBoardView.printMessage("등록되었습니다.");
 		} catch (SQLException e) {
 			TestBoardView.printMessage(e.getMessage());

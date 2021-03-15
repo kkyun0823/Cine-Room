@@ -21,18 +21,6 @@ public class MovieController {
 		}
 	}
 	
-	public static int getMovieNoForBoard() {
-		try {
-			List<Movie> list = movieService.moviesSelect();
-			EndView.printMovieList(list);
-			int no = MenuView.selectMovieNo();
-			list.get(no-1);
-		} catch (SQLException e) {
-			FailView.printMessage(e.getMessage());
-		}
-		return 1;
-	}
-
 	public static void moviesSelectByTitle(String movieTitle) {
 		try {
 			List<Movie> list = movieService.moviesSelectByTitle(movieTitle);

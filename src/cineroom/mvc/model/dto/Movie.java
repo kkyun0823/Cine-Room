@@ -117,7 +117,9 @@ public class Movie {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("[영화제목=");
+		builder.append("[영화코드=");
+		builder.append(movieNo);
+		builder.append(" | 영화제목=");
 		builder.append(movieTitle);
 		builder.append(" | 장르=");
 		builder.append(genreName);

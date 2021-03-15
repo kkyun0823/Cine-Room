@@ -44,8 +44,8 @@ public class BoardService {
 		return dto;
 	}
 
-	public void boardInsert(Board board, Movie movie) throws SQLException {
-		int result = boardDAO.boardInsert(board, movie);
+	public void boardInsert(Board board) throws SQLException {
+		int result = boardDAO.boardInsert(board);
 		if (result == 0) {
 			throw new SQLException("등록되지 않았습니다.");
 		}

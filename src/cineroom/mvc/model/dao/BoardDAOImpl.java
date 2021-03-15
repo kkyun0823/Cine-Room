@@ -133,12 +133,11 @@ public class BoardDAOImpl implements BoardDAO {
 		} finally {
 			DBUtil.dbClose(con, ps, rs);
 		}
-
 		return dto;
 	}
 
 	@Override
-	public int boardInsert(Board board, Movie movie) throws SQLException {
+	public int boardInsert(Board board) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		String sql = "insert into board values (board_seq.nextval, ?, ?, ?, ?, sysdate)";
@@ -148,7 +147,7 @@ public class BoardDAOImpl implements BoardDAO {
 			con = DBUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setString(1, board.getMemberId());
-			ps.setInt(2, movie.getMovieNo());
+			ps.setInt(2, board.getMovieNo());
 			ps.setString(3, board.getBoardTitle());
 			ps.setString(4, board.getBoardContent());
 			result = ps.executeUpdate();

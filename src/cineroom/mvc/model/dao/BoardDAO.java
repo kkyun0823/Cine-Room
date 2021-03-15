@@ -39,7 +39,7 @@ public interface BoardDAO {
 	/**
 	 * 게시판에 글 등록
 	 */
-	public int boardInsert(Board board, Movie movie) throws SQLException;
+	public int boardInsert(Board board) throws SQLException;
 
 	/**
 	 * 게시판에 글 삭제
