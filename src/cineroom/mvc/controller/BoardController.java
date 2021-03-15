@@ -2,7 +2,9 @@ package cineroom.mvc.controller;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Scanner;
 
+import cineroom.mvc.model.dao.BoardDAOImpl;
 import cineroom.mvc.model.dto.Board;
 import cineroom.mvc.model.service.BoardService;
 import cineroom.mvc.view.TestBoardView;
@@ -51,9 +53,9 @@ public class BoardController {
 	/**
 	 * 글번호에 해당하는 게시물 검색
 	 */
-	public static void boardSelectByNo(int boardNo) {
+	public static void boardSelectByNo(Board board) {
 		try {
-			Board dto = boardService.boardSelectByNo(boardNo);
+			Board dto = boardService.boardSelect(board);
 			TestBoardView.printBoard(dto);
 		} catch (SQLException e) {
 			TestBoardView.printMessage(e.getMessage());

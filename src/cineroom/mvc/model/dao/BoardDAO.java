@@ -33,7 +33,7 @@ public interface BoardDAO {
 	 * 
 	 * @return Board 선택한 하나의 글을 출력
 	 */
-	public Board boardSelect(int boardNo) throws SQLException;
+	public Board boardSelect(Board board) throws SQLException;
 
 	/**
 	 * 게시판에 글 등록
