@@ -82,7 +82,7 @@ public class MemberController {
 	public int changeFavNo (Member member) {
 		 try {
 				int result = memberService.changeFavNo(member);
-				//MenuView.printMessage("선호장르 수정을 완료하였습니다.");
+				MenuView.printMessage("선호장르 수정을 완료하였습니다.");
 			} catch (Exception e) {
 				FailView.printMessage(e.getMessage());
 			}

@@ -24,6 +24,13 @@ public interface RateDAO {
 	public int setMovieRate(Rate rate) throws SQLException;
 	
 	/**
+	 * 영화의 평점 수정하기 
+	 * */
+	
+	public int modifyRate(int rateNo, String memberId) throws SQLException;
+	
+
+	/**
 	 * 작성한 영화의 평점 삭제하기
 	 * */
 	public int deleteMovieRate(int rateNo, String memberId) throws SQLException;
