@@ -26,6 +26,8 @@ public class MovieController {
 		try {
 			List<Movie> list = movieService.moviesSelectByTitle(movieTitle);
 			EndView.printMovieList(list);
+			result = true;
+			
 		} catch (SQLException e) {
 			FailView.printMessage(e.getMessage());
 		}
