@@ -109,4 +109,20 @@ public class EndView {
 		}
 		System.out.println();
 	}
+	
+	public static void printRecommendMsg(List<Movie> movieList) {
+		System.out.println("*****영화 추천 메세지(선호하시는 장르의 상영작을 추천해드려요)*****");
+		System.out.println();
+		
+		for(Movie m : movieList) {
+			int movieNo = m.getMovieNo();
+			String movieTitle = m.getMovieTitle();
+			String genreName = m.getGenreName();
+			System.out.println("────────────────────────────────────────────────────────────────────────────");
+			System.out.println("*****"+genreName+"장르의 추천 개봉작입니다!*****");
+			System.out.println("  >"+"영화코드="+movieNo+" | 영화제목="+movieTitle+" | 장르="+genreName);
+			System.out.println("────────────────────────────────────────────────────────────────────────────");
+			System.out.println();
+		}
+	}
 }

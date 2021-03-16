@@ -135,19 +135,18 @@ public class MovieDAOImpl implements MovieDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String sql = "select movie_no, movie_title, to_char(release_date, 'YYYY-MM-DD'), running_time, movie_state, movie_director, genre_name "
-				+ "from genre join movie "
-				+ "using(genre_no) join actor "
-				+ "using(movie_no) "
+				+ "from genre join movie " + "using(genre_no) join actor " + "using(movie_no) "
 				+ "where actor_name like ?";
 		List<Movie> movieList = new ArrayList<Movie>();
 		List<Integer> tempList = new ArrayList<Integer>();
 		try {
 			con = DBUtil.getConnection();
 			ps = con.prepareStatement(sql);
-			ps.setString(1,"%"+actor+"%");
+			ps.setString(1, "%" + actor + "%");
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				if(tempList.contains(rs.getInt(1))) continue;
+				if (tempList.contains(rs.getInt(1)))
+					continue;
 				tempList.add(rs.getInt(1));
 				Movie dto = new Movie(rs.getInt(1), 0, rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5),
 						rs.getString(6));
@@ -170,7 +169,7 @@ public class MovieDAOImpl implements MovieDAO {
 		String sql = "select movie_no, movie_title, to_char(release_date, 'YYYY-MM-DD'), running_time, movie_state, movie_director, genre_name"
 				+ " from movie join genre using (genre_no) where movie_state = 1";
 		List<Movie> movieList = new ArrayList<Movie>();
-		//movie_state가 1인 상영작들만 불러옴
+		// movie_state가 1인 상영작들만 불러옴
 		try {
 			con = DBUtil.getConnection();
 			ps = con.prepareStatement(sql);
@@ -235,7 +234,7 @@ public class MovieDAOImpl implements MovieDAO {
 	public int movieDelete(int movieNo) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
-		//삭제 대신에 -1로 상태를 바꾸어 복구에 용이하게 설계
+		// 삭제 대신에 -1로 상태를 바꾸어 복구에 용이하게 설계
 		String sql = "update movie set movie_state = -1 where movie_no = ?";
 		int result = 0;
 		try {
@@ -293,4 +292,49 @@ public class MovieDAOImpl implements MovieDAO {
 		return list;
 	}
 
+	public List<Movie> recommendMovie(String memberId) throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<Movie> result = new ArrayList<Movie>();
+		List<String> genreList = this.getFavorGenreName(memberId);
+		String sql = "select movie_no, movie_title, genre_name from movie join genre using(genre_no) "
+				+ "where genre_name =?";
+		for(int i = 0 ; i <genreList.size(); i++) {
+			try {
+				con = DBUtil.getConnection();
+				ps = con.prepareStatement(sql);
+				ps.setString(1, genreList.get(i));
+				rs = ps.executeQuery();
+				while(rs.next()) {
+					Movie dto = new Movie(rs.getInt(1), 0, rs.getString(2), null, 0, 0, null);
+					dto.setGenreName(rs.getString(3));
+					result.add(dto);
+				}
+			}finally {
+				DBUtil.dbClose(con, ps, rs);
+			}
+		}
+		return result;
+	}
+
+	public List<String> getFavorGenreName(String memberId) throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<String> genreList = new ArrayList<String>();
+		String sql = "select genre_name from member_genre join genre using(genre_no) where member_id = ?";
+		try {
+			con = DBUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setString(1, memberId);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				genreList.add(rs.getString(1));
+			}
+		} finally {
+			DBUtil.dbClose(con, ps, rs);
+		}
+		return genreList;
+	}
 }

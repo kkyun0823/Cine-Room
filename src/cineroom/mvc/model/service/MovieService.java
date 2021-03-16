@@ -61,5 +61,10 @@ public class MovieService {
 		int result = movieDao.movieUpdate(movie);
 		if(result ==0) throw new SQLException("ERROR : 영화수정에 실패하였습니다.");
 	}
+	
+	public List<Movie> recommendMovie(String memberId) throws SQLException{
+		List<Movie> result = movieDao.recommendMovie(memberId);
+		return result;
+	}
 
 }

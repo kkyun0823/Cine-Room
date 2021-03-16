@@ -74,4 +74,9 @@ public interface MovieDAO {
 	 * 선택한 영화의 평점들을 담은 리스트를 반환하는 메소드
 	 * */
 	public List<Rate> getRates(int movieNo) throws SQLException;
+	/**
+	 * 로그인 할 때 선호장르 중 상영작을 추천하는 메소드
+	 * */
+	public List<Movie> recommendMovie(String memberId) throws SQLException;
+
 }

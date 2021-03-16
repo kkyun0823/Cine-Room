@@ -96,4 +96,13 @@ public class MovieController {
 			FailView.printMessage(e.getMessage());
 		}
 	}
+	
+	public static void recommendMovie(String memberId) {
+		try {
+			List<Movie> result = movieService.recommendMovie(memberId);
+			EndView.printRecommendMsg(result);
+		}catch (SQLException e) {
+			FailView.printMessage(e.getMessage());
+		}
+	}
 }
