@@ -21,7 +21,7 @@ public class BoardDAOImpl implements BoardDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<Board> list = new ArrayList<Board>();
-		String sql = "select * from board join movie using (movie_no)";
+		String sql = "select * from board join movie using (movie_no) order by board_date desc";
 		try {
 			con = DBUtil.getConnection();
 			ps = con.prepareStatement(sql);

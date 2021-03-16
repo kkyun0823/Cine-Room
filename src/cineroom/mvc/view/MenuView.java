@@ -1,11 +1,14 @@
 package cineroom.mvc.view;
 
+import java.util.List;
 import java.util.Scanner;
 
 import cineroom.mvc.controller.BoardController;
+import cineroom.mvc.controller.CommentsController;
 import cineroom.mvc.controller.MemberController;
 import cineroom.mvc.controller.MovieController;
 import cineroom.mvc.model.dto.Board;
+import cineroom.mvc.model.dto.Comments;
 import cineroom.mvc.model.dto.Member;
 import cineroom.mvc.model.dto.Movie;
 import cineroom.mvc.session.Session;
@@ -241,10 +244,12 @@ public class MenuView {
 				int menu = Integer.parseInt(sc.nextLine());
 				switch (menu) {
 				case 1:
-					BoardController.boardSelectByAll();
+					List<Board> list = BoardController.boardSelectByAll();
+					printBoardByNoMenu(list, memberId);
+						
 					break;
 				case 2:
-					MenuView.printSearchBoardByGenre();
+					MenuView.printSearchBoardByGenre(memberId);
 					break;
 				case 3:
 					MenuView.printInsertBoardMenu(memberId);
@@ -261,6 +266,71 @@ public class MenuView {
 			}
 		}
 	}
+	public static void printBoardByNoMenu (List<Board> list ,String memeberId) {
+		loop1:
+			while(true) {
+				try {
+					System.out.println("┌──────────────┐");
+					System.out.println("│ 1. 글조회  |  2. 이전메뉴  ");
+					System.out.println("└──────────────┘");
+					System.out.print("메뉴번호를 입력해주세요 > ");
+					int menuNo = Integer.parseInt(sc.nextLine());
+					switch (menuNo){
+						case 1:
+							System.out.println();
+							System.out.print("글조회를 원하시는 글번호를 입력해주세요 > ");
+							int no = Integer.parseInt(sc.nextLine());
+							int boardNo = BoardController.getBoardNoByList(list, no);
+							BoardController.boardSelectByNo(boardNo);
+							printCommentMenu(memeberId, boardNo);
+							break;
+						case 2:
+							break loop1;
+						default:
+							System.out.println("범위 내의 숫자로 입력해주세요.");
+							break;
+					}
+				}catch (NumberFormatException e) {
+					System.out.println("숫자로 입력해주세요.");
+				}
+			}
+	}
+	
+	public static void printCommentMenu(String memberId, int boardNo) {
+		loop1:
+		while(true) {
+			try {
+				System.out.println("┌───────────────┐");
+				System.out.println("│ 1. 댓글작성  |  2. 이전메뉴  ");
+				System.out.println("└───────────────┘");
+				System.out.print("메뉴번호를 입력해주세요. > ");
+				int menuNo = Integer.parseInt(sc.nextLine());
+				switch (menuNo){
+					case 1:
+						printInsertCommentsMenu(memberId, boardNo);
+						break;
+					case 2:
+						break loop1;
+					default:
+						System.out.println("범위 내의 숫자로 입력해주세요.");
+						break;
+				}
+			}catch (NumberFormatException e) {
+				System.out.println("숫자로 입력해주세요.");
+			}
+		}
+		
+	}
+	
+	public static void printInsertCommentsMenu (String memberId , int boardNo) {
+		System.out.print("댓글을 입력해주세요. > ");
+		String comment = sc.nextLine();
+		Comments co = new Comments(0, boardNo, memberId, comment, null);
+		CommentsController.commentsInsert(co);
+		
+	}
+	
+	
 	
 	public static void printGenre() {
 		System.out.println("┌─────────────────────────────────────────────────────────────────────────┐");
@@ -271,7 +341,7 @@ public class MenuView {
 		System.out.println("└─────────────────────────────────────────────────────────────────────────┘");
 		System.out.println();
 	}
-	public static void printSearchBoardByGenre() {
+	public static void printSearchBoardByGenre(String memberId) {
 		while(true) {
 			MenuView.printGenre();
 			try {
@@ -281,13 +351,15 @@ public class MenuView {
 					System.out.println("범위 내의 숫자로 입력해주세요.");
 					continue;
 				}
-				BoardController.boardSelectByGenre(genreNo);
+				List<Board> list= BoardController.boardSelectByGenre(genreNo);
+				printBoardByNoMenu(list, memberId);
 				break;
 			}catch (NumberFormatException e) {
 				System.out.println("숫자로 입력해 주세요.");
 			}
 		}
 	}
+	
 	
 	public static void printInsertBoardMenu(String memberId) {
 		//영화를 골라서 번호를 가져와야하는 issue
@@ -320,4 +392,5 @@ public class MenuView {
 	public static void printMovieMangeMenu() {
 		
 	}
+
 }

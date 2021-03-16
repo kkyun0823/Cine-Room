@@ -195,13 +195,13 @@ public class TestBoardView {
 		//해당되는 글번호를 입력해주세요 > 3
 		
 		// 게시판 전체글 검색
-		//boardController.boardSelectByAll();
+		boardController.boardSelectByAll();
 
 		// 장르번호에 해당하는 글 검색
-		//boardController.boardSelectByGenre(5);
+		boardController.boardSelectByGenre(5);
 		
-		//List<Board> list = boardController.boardSelectByGenre(5);
-		//int boardNo = getBoardNoByList(list, 3);
+		List<Board> list = boardController.boardSelectByGenre(5);
+		int boardNo = getBoardNoByList(list, 3);
 		
 		//System.out.println();
 		// ID에 해당하는 글 검색
@@ -209,7 +209,7 @@ public class TestBoardView {
 
 		//System.out.println();
 		// 글번호에 해당하는 글 검색
-		//boardController.boardSelectByNo(boardNo);
+		boardController.boardSelectByNo(boardNo);
 
 		//System.out.println();
 		// 게시물 등록
@@ -227,7 +227,7 @@ public class TestBoardView {
 		//commentsController.commentsSelectByBoardNo(5);
 		
 		// ID에 해당하는 댓글 검색
-		commentsController.commentsSelectByID("jungwoo123");
+		//commentsController.commentsSelectByID("jungwoo123");
 
 		// 댓글 등록
 //		int boardNo = 9;
