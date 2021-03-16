@@ -333,6 +333,7 @@ public class MenuView {
 	
 	
 	
+	
 	public static void printGenre() {
 		System.out.println("┌─────────────────────────────────────────────────────────────────────────┐");
 		System.out.println("│  1.액션  |  2.코미디  |  3.로맨스  |  4.공포  |  5.애니메이션  |  6.SF  │");
