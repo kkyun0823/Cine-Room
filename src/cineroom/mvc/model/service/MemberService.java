@@ -44,9 +44,6 @@ public class MemberService {
 	 * */
 	public boolean duplicateByMemberId(String memberId) throws SQLException {
     		boolean result = memberDao.duplicateByMemberId(memberId);
-        	if(result == true) {
-        		throw new SQLException("입력하신 아이디가 이미 존재합니다. 다시 입력해주세요.");
-            }
         	return result; 
 	}
 	
@@ -76,8 +73,14 @@ public class MemberService {
 
 	
 	/**
-	 * 선호장르 변경
+	 * 선호장르 변경  // DAO에 추가하기 
 	 * */
-	
+	public int changeFavNo() throws SQLException{
+		int result = memberDao.changeFavNo(member);
+		if (result == 0) {
+			throw new SQLException("선호장르 변경에 실패했습니다. ");
+		}
+		return result;
+	}
 	
 }

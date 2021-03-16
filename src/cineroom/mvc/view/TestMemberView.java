@@ -68,8 +68,8 @@ public class TestMemberView {
 	 * 중복체크 
 	 * */
 	
-	//EmpDTO empDTO = new EmpDTO(9000, "송중기", "배우", 8000, null);
-	 if(dao.duplicateByEmpno(empDTO.getEmpno())) {
+
+	 if(dao.duplicateByMemberID(empDTO.getEmpno())) {
 		 //오류메세지
 		 EndView.printMessage(empDTO.getEmpno() + "는 중복으로 등록할 수 없습니다. ");
 	 }else {

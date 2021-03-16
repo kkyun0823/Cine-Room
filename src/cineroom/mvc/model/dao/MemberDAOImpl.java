@@ -98,7 +98,7 @@ public class MemberDAOImpl implements MemberDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		String sql = "update member set member_password = ? where member_id = ?  ";
-		int result = 0;  //여기 뭐 들어가야하는지  모르겠음 
+		int result = 0; 
 		try {
 			con = DBUtil.getConnection();
 			ps = con.prepareStatement(sql);
@@ -139,7 +139,7 @@ public class MemberDAOImpl implements MemberDAO {
 	
 	
 	/**
-	 * 선호장르 변경 
+	 * 선호장르 변경  - 
 	 * */
 	public int changeFavNo (Member member)throws SQLException{
 		Connection con = null;
@@ -149,7 +149,7 @@ public class MemberDAOImpl implements MemberDAO {
 		try {
 			con = DBUtil.getConnection();
 			ps = con.prepareStatement(sql);
-			ps.setInt(1,genreFavNo());  // 뭐 들어가야하지 
+			ps.setInt(1,genreFavNo());   
 			ps.setString(2, member.getMemberId());
 
 			result = ps.executeUpdate();

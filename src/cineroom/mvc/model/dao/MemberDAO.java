@@ -23,7 +23,7 @@ public interface MemberDAO {
 	public boolean duplicateByMemberId(String memberID) throws SQLException;	
 	
 	/**
-	 * 회원정보 수정 기능
+	 * 회원정보 수정 기능 (비밀번호)
 	 * */
 	public int memberUpdate(Member member) throws SQLException;
 	
@@ -31,4 +31,11 @@ public interface MemberDAO {
 	 * 회원정보 삭제 기능
 	 * */
 	public int memberDelete(Member member) throws SQLException;
+	
+	/**
+	 * 선호장르 변경  
+	 * */
+	public int changeFavNo (Member member)throws SQLException;
+	
+	
 }
