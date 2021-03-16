@@ -7,6 +7,14 @@ import cineroom.mvc.model.dto.Member;
 
 public interface MemberDAO {
 	/**
+	 *  회원정보 전체 검색  
+	 * */
+	
+    public List<Member> memberSelectAll() throws SQLException;
+    
+	
+	
+	/**
 	 * 로그인 기능 -> id와 pw를 입력한다.
 	 * @return 로그인 된 member반환
 	 * */

@@ -12,9 +12,27 @@ import cineroom.mvc.view.FailView;
 import cineroom.mvc.view.MenuView;
 import cineroom.mvc.view.TestView;
 
+
 public class MemberController {
 	private static MemberService memberService = new MemberService();
 
+	
+	/**
+	 * 회원정보 전체 검색 
+	 * */
+	
+	public static void memberSelectAll() throws SQLException{
+		try {
+		  List<Member> list =memberService.memberSelectAll();
+		  //MenuView.selectPrint(list);
+		}catch (SQLException e) {
+			FailView.printMessage(e.getMessage());
+		}
+	}
+			
+			
+	
+	 
 	/**
 	 * 로그인
 	 */

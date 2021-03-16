@@ -4,13 +4,55 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import cineroom.mvc.model.dto.Member;
 import cineroom.mvc.util.DBUtil;
 
-public class MemberDAOImpl implements MemberDAO {
 
+public class MemberDAOImpl implements MemberDAO {
+	
+	
+	/**
+	 * 회원정보 전체 검색 
+	 * */
+	
+    public List<Member> memberSelectAll() throws SQLException{
+    		  Connection con = null;
+    		  PreparedStatement ps = null;
+    		  ResultSet rs = null;
+    		  List<Member> list = new ArrayList<Member>();
+    		  String sql = "select*from member ";
+    		  
+    		  try {
+    			  con = DBUtil.getConnection();
+    			  ps = con.prepareStatement(sql);
+    			  
+    			  rs = ps.executeQuery();
+    			  while(rs.next()) {
+    				 String memberId = rs.getString("member_id");
+    				 String name = rs.getString("name");
+    				 String birth = rs.getString("birth");		
+
+    				 
+    				 Member dto = new Member(memberId, null, name, birth, 0);
+    				 
+    				  
+    				 list.add(dto);
+    			  }
+    			  
+    		  }catch(SQLException e) {
+    			  e.printStackTrace();
+    		  }finally {
+    			  DBUtil.dbClose(con, ps, rs);
+    		  }
+    		  return list;
+    	}
+    
+    
+   
 	/**
 	 * 로그인
 	 */

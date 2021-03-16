@@ -10,9 +10,23 @@ import cineroom.mvc.session.Session;
 import cineroom.mvc.session.SessionSet;
 import cineroom.mvc.view.EndView;
 
+
 public class MemberService {
 	MemberDAO memberDao = new MemberDAOImpl();
 
+	
+	/**
+	 * 전체검색  
+	 * */
+	
+	public List<Member> memberSelectAll() throws SQLException {
+		List<Member> list =  memberDao.memberSelectAll();
+		if(list==null || list.size()==0 || list.isEmpty()) {
+			throw new SQLException("검색된 정보가 없습니다.");
+		}
+		return list;
+	}
+	
 	/**
 	 * 로그인 실패 -- session 처리를 어떻게 해야하는가
 	 */
