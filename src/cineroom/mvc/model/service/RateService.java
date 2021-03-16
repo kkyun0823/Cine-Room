@@ -47,6 +47,20 @@ public class RateService {
 	}
 	
 	/**
+	 * 등록한 영화의 평점 수정하기   
+	 * */
+	
+	public int modifyRate(int rateNo, String memberId) throws SQLException{
+		int result = rateDao.modifyRate(rateNo, memberId);
+		if(result ==0) {
+			throw new SQLException("평점 수정에 실패하였습니다.");
+		}
+		return result; 
+		
+	}
+
+	
+	/**
 	 * 작성한 영화의 평점 삭제하기
 	 * */
 	public int deleteMovieRate(int rateNo, String memberId) throws SQLException{
@@ -65,6 +79,10 @@ public class RateService {
 		List<Rate> list= rateDao.rateSelectByID(memberId);
 		if(list.size()==0)throw new SQLException("등록된 평점이 없습니다.");
 		return list;
+	}
+
+
+	
 	}
 }
 

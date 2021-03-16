@@ -14,7 +14,9 @@ import cineroom.mvc.util.DBUtil;
 
 public class RateDAOImpl implements RateDAO {
 
-	// 가져오기
+    /**
+     *  가져오기
+     */
 	@Override
 	public double getMovieRate(Movie movie) throws SQLException {
 		Connection con = null;
@@ -37,7 +39,9 @@ public class RateDAOImpl implements RateDAO {
 		return rate;
 	}
 
-	// 해당 영화 평점 등록여부 체크
+	/**
+	 * 해당 영화 평점 등록여부 체크
+	 */
 	@Override
 	public boolean checkRate(String memberId, int movieId) throws SQLException {
 		
@@ -65,7 +69,9 @@ public class RateDAOImpl implements RateDAO {
 		return result;
 	}
 
-	// 평점입력
+	/**
+	 *  평점입력
+	 */
 	@Override
 	public int setMovieRate(Rate rate) throws SQLException {
 		Connection con = null;
@@ -88,7 +94,39 @@ public class RateDAOImpl implements RateDAO {
 		return result;
 	}
 
-	// 삭제
+	/**
+	 *  등록한 평점 수정
+	 */
+	
+	public int modifyRate(int rateNo, String memberId) throws SQLException {
+
+		 Connection con = null;
+		 PreparedStatement ps = null;
+		 int result = 0;
+		 
+		 String sql = "update rate set rate_no= ? where member_id = ? ";
+		 		try {
+		 			con = DBUtil.getConnection();
+		 			ps = con.prepareStatement(sql);
+		 			ps.setInt(1, rateNo);
+		 			ps.setString(2, memberId);
+		 			
+		 		}catch(SQLException e){
+		 			e.printStackTrace();
+		 		}finally {
+		 			DBUtil.dbClose(con, ps);
+		 		}
+		 		
+		 return result;
+		}
+		
+	
+	
+	
+	
+	/**
+	 * 삭제
+	 */
 	@Override
 	public int deleteMovieRate(int rateNo, String memberId) throws SQLException {
 		Connection con = null;
@@ -108,7 +146,9 @@ public class RateDAOImpl implements RateDAO {
 		return result;
 	}
 
-	// 검색 - 내가 쓴 평점 보기
+	/**
+	 * 검색 - 내가 쓴 평점 보기
+	 */
 	@Override
 	public List<Rate> rateSelectByID(String memberId) throws SQLException {
 		Connection con = null;
