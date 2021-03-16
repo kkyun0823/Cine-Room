@@ -37,10 +37,10 @@ public class BoardController {
 	public static List<Board> boardSelectByGenre(int genreNo) {
 		try {
 			List<Board> list = boardService.boardSelectByGenre(genreNo);
-			TestBoardView.printGenreBoardList(list);
+			EndView.printBoardList(list);
 			return list;
 		} catch (SQLException e) {
-			TestBoardView.printMessage(e.getMessage());
+			FailView.printMessage(e.getMessage());
 			return null;
 		}
 	}
@@ -51,10 +51,10 @@ public class BoardController {
 	public static List<Board> boardSelectByID(String memberId) {
 		try {
 			List<Board> list = boardService.boardSelectByID(memberId);
-			TestBoardView.printBoardList(list);
+			EndView.printBoardList(list);
 			return list;
 		} catch (SQLException e) {
-			TestBoardView.printMessage(e.getMessage());
+			FailView.printMessage(e.getMessage());
 			return null;
 		}
 	}
@@ -65,9 +65,9 @@ public class BoardController {
 	public static void boardSelectByNo(int boardNo) {
 		try {
 			Board dto = boardService.boardSelectByNo(boardNo);
-			TestBoardView.printBoardByNo(dto);
+			EndView.printBoardByNo(dto);
 		} catch (SQLException e) {
-			TestBoardView.printMessage(e.getMessage());
+			FailView.printMessage(e.getMessage());
 		}
 
 	}
@@ -80,9 +80,9 @@ public class BoardController {
 			//영화 검색메뉴를 띄우고 , 영화 객체를 받아오기
 			
 			boardService.boardInsert(board);
-			TestBoardView.printMessage("등록되었습니다.");
+			EndView.printMessage("등록되었습니다.");
 		} catch (SQLException e) {
-			TestBoardView.printMessage(e.getMessage());
+			FailView.printMessage(e.getMessage());
 		}
 	}
 
@@ -92,9 +92,9 @@ public class BoardController {
 	public static void boardDelete(int boardNo) {
 		try {
 			boardService.boardDelete(boardNo);
-			TestBoardView.printMessage("삭제되었습니다.");
+			EndView.printMessage("삭제되었습니다.");
 		} catch (SQLException e) {
-			TestBoardView.printMessage(e.getMessage());
+			FailView.printMessage(e.getMessage());
 		}
 
 	}

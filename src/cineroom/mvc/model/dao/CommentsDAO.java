@@ -7,6 +7,12 @@ import cineroom.mvc.model.dto.Comments;
 
 public interface CommentsDAO {
 	/**
+	 * 모든 댓글 가져오기
+	 * */
+	public List<Comments> commentsSelectAll () throws SQLException;
+	
+	
+	/**
 	 * 부모글번호에 대한 댓글 정보 검색하기
 	 * */
 	public List<Comments> commentsSelectByBoardNo(int boardNo) throws SQLException;

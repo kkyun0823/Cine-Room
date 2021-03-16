@@ -42,5 +42,10 @@ public class CommentsService {
 			throw new SQLException("삭제되지 않았습니다.");
 		}
 	}
+	
+	public List<Comments> commentsSelectAll() throws SQLException {
+		List<Comments> list = commentsDAO.commentsSelectAll();
+		return list;
+	}
 
 }

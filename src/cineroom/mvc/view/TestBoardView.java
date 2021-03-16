@@ -11,6 +11,7 @@ import cineroom.mvc.model.dao.BoardDAO;
 import cineroom.mvc.model.dao.BoardDAOImpl;
 import cineroom.mvc.model.dto.Board;
 import cineroom.mvc.model.dto.Comments;
+import cineroom.mvc.model.service.CommentsService;
 
 public class TestBoardView {
 	private static Scanner sc = new Scanner(System.in);
@@ -33,21 +34,21 @@ public class TestBoardView {
 		System.out.println();
 	}
 	
-	/**
-	 * 장르에 해당하는 게시판 검색 출력하기
-	 */
-	public static void printGenreBoardList(List<Board> list) {
-		System.out.println("------결과(" + list.size() + "건)---------");
-		int i = 1;
-		
-		for (Board dto : list) {
-			System.out.print("글번호 " + i);
-			System.out.println(dto);
-			i++;
-		}
-
-		System.out.println();
-	}
+//	/**
+//	 * 장르에 해당하는 게시판 검색 출력하기
+//	 */
+//	public static void printGenreBoardList(List<Board> list) {
+//		System.out.println("------결과(" + list.size() + "건)---------");
+//		int i = 1;
+//		
+//		for (Board dto : list) {
+//			System.out.print("글번호 " + i);
+//			System.out.println(dto);
+//			i++;
+//		}
+//
+//		System.out.println();
+//	}
 
 	/**
 	 * 글번호에 해당하는 게시판 검색 출력하기
@@ -61,8 +62,10 @@ public class TestBoardView {
 		System.out.println("│     Date   |  " +dto.getBoardDate());
 		System.out.println("└──────────────────────┘ ");
 		System.out.println("  <Comment>");
+		int i = 1;
 		for(Comments com : dto.getCommentsList()) {
-			System.out.println(com);
+			System.out.println("댓글번호 " + i + " | " + com);
+			i++;
 		}
 		System.out.println();
 	}
@@ -74,7 +77,7 @@ public class TestBoardView {
 		System.out.println("------검색결과 (" + list.size() + "건)---------");
 		int i = 1;
 		for (Comments dto : list) {
-			System.out.println("댓글 " + i + " | ID : " + dto.getMemberId() + " | 내용 : " + dto.getCommentsContent() + " | 등록일 : " + dto.getCommentsDate());
+			System.out.println("댓글번호 " + i + " | ID : " + dto.getMemberId() + " | 내용 : " + dto.getCommentsContent() + " | 등록일 : " + dto.getCommentsDate());
 			i++;
 		}
 		System.out.println();
@@ -121,7 +124,130 @@ public class TestBoardView {
 	public static void printMessage(String message) {
 		System.out.println(message);
 	}
-
+	/**
+	 * 리뷰게시판 관리자 메뉴
+	 * */
+	public static void printBoardMangeMenu(String memberId) {
+		loop1:
+		while(true) {
+			System.out.println("***********리뷰 게시판 관리 메뉴입니다***********");
+			System.out.println("┌──────────────────────────────────────────────────────────────────┐");
+			System.out.println("│  1.전체 게시판 관리  |  2.장르별 게시판 관리 |  9.이전메뉴  │");
+			System.out.println("└──────────────────────────────────────────────────────────────────┘");
+			System.out.println();
+			try {
+				System.out.print("이용하실 게시판을 번호로 입력해주세요. > ");
+				int menu = Integer.parseInt(sc.nextLine());
+				switch (menu) {
+				case 1:
+					List<Board> list = BoardController.boardSelectByAll();
+					printBoardMangeByNoMenu(list, memberId);
+						
+					break;
+				case 2:
+					printSearchBoardMangeByGenre(memberId);
+					break;
+				case 9:
+					break loop1;
+				default:
+					System.out.println("범위 내의 숫자로 입력해주세요.");
+					break;
+				}
+			}catch (NumberFormatException e) {
+				System.out.println("숫자로 입력해 주세요.");
+			}
+		}
+	}
+	
+	public static void printBoardMangeByNoMenu (List<Board> list ,String memeberId) {
+		loop1:
+			while(true) {
+				try {
+					System.out.println("┌────────────────────────────┐");
+					System.out.println("│ 1. 글조회  | 2. 글삭제  3. 이전메뉴  │");
+					System.out.println("└────────────────────────────┘");
+					System.out.print("메뉴번호를 입력해주세요 > ");
+					int menuNo = Integer.parseInt(sc.nextLine());
+					switch (menuNo){
+						case 1:
+							System.out.println();
+							System.out.print("글조회를 원하시는 글번호를 입력해주세요 > ");
+							int no1 = Integer.parseInt(sc.nextLine());
+							int boardNo1 = BoardController.getBoardNoByList(list, no1);
+							BoardController.boardSelectByNo(boardNo1);
+							printCommentMangeMenu(memeberId, boardNo1);
+							break;
+						case 2:
+							System.out.println();
+							System.out.print("삭제하실 글번호를 입력해주세요 > ");
+							int no2 = Integer.parseInt(sc.nextLine());
+							int boardNo2 = BoardController.getBoardNoByList(list, no2);
+							BoardController.boardDelete(boardNo2);
+						case 3:
+							break loop1;
+						default:
+							System.out.println("범위 내의 숫자로 입력해주세요.");
+							break;
+					}
+				}catch (NumberFormatException e) {
+					System.out.println("숫자로 입력해주세요.");
+				}
+			}
+	}
+	
+	public static void printSearchBoardMangeByGenre(String memberId) {
+		while(true) {
+			MenuView.printGenre();
+			try {
+				System.out.print("검색하실 장르를 번호로 입력해주세요. > ");
+				int genreNo = Integer.parseInt(sc.nextLine());
+				if(genreNo>18||genreNo<=0) {
+					System.out.println("범위 내의 숫자로 입력해주세요.");
+					continue;
+				}
+				List<Board> list= BoardController.boardSelectByGenre(genreNo);
+				printBoardMangeByNoMenu(list, memberId);
+				break;
+			}catch (NumberFormatException e) {
+				System.out.println("숫자로 입력해 주세요.");
+			}
+		}
+	}
+	
+	public static void printCommentMangeMenu(String memberId, int boardNo) {
+		loop1:
+		while(true) {
+			try {
+				System.out.println("┌──────────────────────────────┐");
+				System.out.println("│ 1. 댓글삭제  |  2. 이전메뉴  │");
+				System.out.println("└──────────────────────────────┘");
+				System.out.print("메뉴번호를 입력해주세요. > ");
+				int menuNo = Integer.parseInt(sc.nextLine());
+				switch (menuNo){
+					case 1:
+						System.out.println();
+						System.out.print("삭제하실 댓글번호를 입력해주세요 > ");
+						int no = Integer.parseInt(sc.nextLine());
+						List<Comments> list = CommentsController.commentsSelectByBoardNo(boardNo);
+						int commentNo = CommentsController.getCommentsNoByList(list, no);
+						CommentsController.commentsDelete(commentNo);
+						break;
+					case 2:
+						break loop1;
+					default:
+						System.out.println("범위 내의 숫자로 입력해주세요.");
+						break;
+				}
+			}catch (NumberFormatException e) {
+				System.out.println("숫자로 입력해주세요.");
+			}
+		}
+		
+	}
+	
+	List<Board> list = boardSelectByID(memberID);
+	
+	
 	public static void main(String[] args)throws SQLException {
 		
 //		BoardDAO bd = new BoardDAOImpl();
@@ -135,7 +261,7 @@ public class TestBoardView {
 //		Board b = list.get(2-1);
 //		Board b = bd.boardSelect(list.get(inp-1));
 //		System.out.println(b);
-		
+		TestBoardView.printBoardMangeMenu("jungwoo123");
 
 		// 유저가 리뷰게시판 항목을 선택했을시
 //		while (true) {
@@ -188,6 +314,10 @@ public class TestBoardView {
 		//3)글등록 -- 글등록을 누르면 영화검색기능을 이용하여 원하는 영화번호를 얻을수있게 
 		//영화리스트를 보여주는 결과값 출력해서 보여주고 사용자는 이것을 참조하여 글을 등록할 수 있다.
 		
+		//마이페이지 접속시
+		
+		
+		
 		
 
 		//1. 글조회 2. 댓글등록
@@ -195,13 +325,13 @@ public class TestBoardView {
 		//해당되는 글번호를 입력해주세요 > 3
 		
 		// 게시판 전체글 검색
-		boardController.boardSelectByAll();
+		//boardController.boardSelectByAll();
 
 		// 장르번호에 해당하는 글 검색
-		boardController.boardSelectByGenre(5);
+		//boardController.boardSelectByGenre(5);
 		
-		List<Board> list = boardController.boardSelectByGenre(5);
-		int boardNo = getBoardNoByList(list, 3);
+		//List<Board> list = boardController.boardSelectByGenre(5);
+		//int boardNo = getBoardNoByList(list, 3);
 		
 		//System.out.println();
 		// ID에 해당하는 글 검색
@@ -209,7 +339,7 @@ public class TestBoardView {
 
 		//System.out.println();
 		// 글번호에 해당하는 글 검색
-		boardController.boardSelectByNo(boardNo);
+		//boardController.boardSelectByNo(boardNo);
 
 		//System.out.println();
 		// 게시물 등록
