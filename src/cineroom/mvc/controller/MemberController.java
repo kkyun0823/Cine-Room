@@ -36,7 +36,7 @@ public class MemberController {
 	/**
 	 * 아이디 중복체크 - 중복 아닐 때
 	 */
-	public boolean duplicateByMemberId(String memberId) {
+	public static boolean duplicateByMemberId(String memberId) {
 		try {
 			boolean result = memberService.duplicateByMemberId(memberId);
 			if (result == false) {

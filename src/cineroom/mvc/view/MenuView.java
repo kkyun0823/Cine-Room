@@ -7,10 +7,12 @@ import cineroom.mvc.controller.BoardController;
 import cineroom.mvc.controller.CommentsController;
 import cineroom.mvc.controller.MemberController;
 import cineroom.mvc.controller.MovieController;
+import cineroom.mvc.controller.RateController;
 import cineroom.mvc.model.dto.Board;
 import cineroom.mvc.model.dto.Comments;
 import cineroom.mvc.model.dto.Member;
 import cineroom.mvc.model.dto.Movie;
+import cineroom.mvc.model.dto.Rate;
 import cineroom.mvc.session.Session;
 import cineroom.mvc.session.SessionSet;
 
@@ -69,10 +71,12 @@ public class MenuView {
 			memberId = sc.nextLine();
 			// ID중복체크 메소드
 			
-			if (true) {
-				break;
+			if (MemberController.duplicateByMemberId(memberId)) {
+				System.out.println("이미 사용중인 ID입니다.");
+				continue;
 			}
-			System.out.println("이미 사용중인 ID입니다.");
+			System.out.println("사용 가능한 ID입니다!");
+			break;
 		}
 
 		while (true) {
@@ -125,6 +129,7 @@ public class MenuView {
 					MenuView.printMovieSearchMenu();
 					break;
 				case 2:
+					MenuView.printRateMenu(memberId);
 					break;
 				case 3:
 					MenuView.printBoardMenu(memberId);
@@ -224,12 +229,77 @@ public class MenuView {
 		return no;
 	}
 
-	public static void printRateMenu() {
-		System.out.println("***********영화평점 메뉴입니다***********");
-		System.out.println("┌───────────────────────────────────────────────────────────┐");
-		System.out.println("│  1.평점보기  |  2.평점등록  |  3.평점수정  |  9.이전메뉴  │");
-		System.out.println("└───────────────────────────────────────────────────────────┘");
-		System.out.println();
+	public static void printRateMenu(String memberId) {
+		loop2 : while(true) {
+			System.out.println("***********영화평점 메뉴입니다***********");
+			System.out.println("┌───────────────────────────────────────────────────────────┐");
+			System.out.println("│  1.평점등록  |  2.평점수정  |  3.평점삭제  |  9.이전메뉴  │");
+			System.out.println("└───────────────────────────────────────────────────────────┘");
+			System.out.println();
+			try {
+				System.out.print("이용하실 메뉴를 번호로 눌러주세요. > ");
+				int choice = Integer.parseInt(sc.nextLine());
+				switch (choice) {
+				case 1:
+					MenuView.addRateMenu(memberId);
+					break;
+				case 2:
+					break;
+				case 3:
+					MenuView.deleteRateMenu(memberId);
+					break;
+				case 6:
+					break loop2;
+				default:
+					System.out.println("범위 내의 숫자로 입력해주세요.");
+					break;
+				}
+				
+			}catch (NumberFormatException e) {
+				System.out.println("숫자로 입력해 주세요.");
+			}
+			
+		}
+	}
+	
+	public static void addRateMenu(String memberId) {
+		String keyWord="";
+		while(true) {
+			System.out.print("평점을 등록하실 영화 제목을 입력해주세요. >");
+			keyWord = sc.nextLine();
+			if(MovieController.moviesSelectByTitle(keyWord)) break;	
+		}
+		
+		System.out.print("목록 중 평점을 등록하실 영화의 코드를 입력해주세요. > ");
+		int movieNo = Integer.parseInt(sc.nextLine());
+		int rate  =0;
+		while(true) {
+			try {
+				System.out.print("평점을 입력해주세요.(1~5사이의 정수로 입력 가능)> ");
+				rate = Integer.parseInt(sc.nextLine());
+				if(rate>0&&rate<6) break;
+				System.out.println("1에서 5사이의 정수로 입력해주세요!");
+			}catch (NumberFormatException e) {
+				System.out.println("숫자로 입력해 주세요.");
+			}
+		}
+		Rate r = new Rate(0, memberId, movieNo, rate);
+		RateController.setMovieRate(r);
+	}
+	
+	public static void deleteRateMenu(String memberId) {
+		RateController.rateSelectByID(memberId);
+		int rateNo =0;
+		while(true) {
+			try {
+				System.out.print("삭제하실 평점의 코드를 입력해주세요> ");
+				rateNo = Integer.parseInt(sc.nextLine());
+				break;
+			}catch (NumberFormatException e) {
+				System.out.println("코드는 숫자로 입력해 주세요.");
+			}
+		}
+		RateController.deleteMovieRate(rateNo,memberId);
 	}
 
 	public static void printBoardMenu(String memberId) {
@@ -365,9 +435,12 @@ public class MenuView {
 	
 	public static void printInsertBoardMenu(String memberId) {
 		//영화를 골라서 번호를 가져와야하는 issue
-		System.out.print("리뷰를 작성하실 영화 제목을 입력해주세요. >");
-		String keyWord = sc.nextLine();
-		MovieController.moviesSelectByTitle(keyWord);
+		String keyWord="";
+		while(true) {
+			System.out.print("평점을 등록하실 영화 제목을 입력해주세요. >");
+			keyWord = sc.nextLine();
+			if(MovieController.moviesSelectByTitle(keyWord)) break;	
+		}
 		
 		System.out.print("목록 중 리뷰를 작성하실 영화의 코드를 입력해주세요. > ");
 		int movieNo = Integer.parseInt(sc.nextLine());

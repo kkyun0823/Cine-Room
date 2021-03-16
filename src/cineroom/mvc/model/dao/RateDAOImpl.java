@@ -12,10 +12,9 @@ import cineroom.mvc.model.dto.Movie;
 import cineroom.mvc.model.dto.Rate;
 import cineroom.mvc.util.DBUtil;
 
+public class RateDAOImpl implements RateDAO {
 
-public class RateDAOImpl implements RateDAO{
-
-	//가져오기 
+	// 가져오기
 	@Override
 	public double getMovieRate(Movie movie) throws SQLException {
 		Connection con = null;
@@ -27,10 +26,10 @@ public class RateDAOImpl implements RateDAO{
 			con = DBUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, movie.getMovieNo());
-	
+
 			rs = ps.executeQuery();
-			
-			if(rs.next())
+
+			if (rs.next())
 				rate = rs.getDouble(1);
 		} finally {
 			DBUtil.dbClose(con, ps);
@@ -38,111 +37,99 @@ public class RateDAOImpl implements RateDAO{
 		return rate;
 	}
 
-	// 해당 영화 평점 등록여부 체크  
+	// 해당 영화 평점 등록여부 체크
 	@Override
-	 public boolean checkRate(String memberId) throws SQLException{
-
-	    Connection con = null;
-	    PreparedStatement ps = null;
-	    ResultSet rs = null;
-	    boolean result = false;
-	    
-	    String sql = "select*from rate where member_id = ? and movie_number = ? ";
-	    
-	    try {
-	    	con = DBUtil.getConnection();
-	    	ps = con.prepareStatement(sql);
-	    	ps.setString(1, member.getMemberId());
-	    	ps.setInt(1, movie.geMovieNo());
+	public boolean checkRate(String memberId, int movieId) throws SQLException {
 		
-	    	rs = ps.executeQuery();
-	    
-	    	//if(rs.next()) {
-	    		result = true;
-	} finally {
-		DBUtil.dbClose(con, ps);
-	}
-	return result;
-	}
 
-	
-	
-	
-	//평점입력 
-	@Override
-	public int setMovieRate(int movieNo, String memberId, int rate) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
-		int result = 0;
-		
-		String sql = "insert into rate values (rate_rateno_seq.nextval,?,?,?)";
-		
+		ResultSet rs = null;
+		boolean result = false;
+
+		String sql = "select*from rate where member_id = ? and movie_no = ? ";
+
 		try {
 			con = DBUtil.getConnection();
 			ps = con.prepareStatement(sql);
-			ps.setInt(1, movieNo);
-			ps.setString(2, memberId);
-			ps.setInt(3, rate);
-			
-			result = ps.executeUpdate();
-			
-		} finally {
-			DBUtil.dbClose(con, ps);
-		}
-		return rate;
-		}
-	
-	
+			ps.setString(1, memberId);
+			ps.setInt(2, movieId);
 
-	
-	//삭제 
-	@Override
-	public int deleteMovieRate(Member member, Movie movie) throws SQLException {
-		Connection con = null;
-		PreparedStatement ps = null;
-		String sql = "Delete from rate where movie_number = ? and member_id = ?";
-		
-		int result = 0;		
-		try {
-			con = DBUtil.getConnection();
-			ps = con.prepareStatement(sql);
-			ps.setInt(1, movie.getMovieNo());
-			ps.setString(2, member.getMemberId());
-			
-			result = ps.executeUpdate();
-			
+			rs = ps.executeQuery();
+
+			if (rs.next())
+				result = true;
 		} finally {
 			DBUtil.dbClose(con, ps);
 		}
 		return result;
-		}
-			
+	}
 
-	
-	//검색  - 내가 쓴 평점 보기  
+	// 평점입력
 	@Override
-	public List<Rate> rateSelectByID(Member member) throws SQLException {
-			Connection con=null;
-		    PreparedStatement ps=null;
-		    ResultSet rs=null;
-		    String sql = "select movie_name, rate from rate join movie using (movie_no) where member_id = ?";
-		    		
-			List<Rate> list = new ArrayList<>();
-			 try {
-			   con = DBUtil.getConnection();
-			   ps= con.prepareStatement("select * from member join rate using(member_id) where movie_id = ?");
-			   ps.setString(1, member.getMemberId());
-		       rs = ps.executeQuery(); 
-		        
-		       while(rs.next()) {
-		       	Rate rate  = new Rate(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4));
-		        	list.add(rate);
-		        }
-	    }finally {
-	    	DBUtil.dbClose(con, ps, rs);
-	    }
-			return list;
-			
+	public int setMovieRate(Rate rate) throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		int result = 0;
+
+		String sql = "insert into rate values(rate_seq.nextval,?,?,?)";
+
+		try {
+			con = DBUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setString(1, rate.getMemberId());
+			ps.setInt(2, rate.getMovieNo());
+			ps.setInt(3, rate.getRate());
+
+			result = ps.executeUpdate();
+		} finally {
+			DBUtil.dbClose(con, ps);
+		}
+		return result;
+	}
+
+	// 삭제
+	@Override
+	public int deleteMovieRate(int rateNo, String memberId) throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		String sql = "Delete rate where rate_no= ? and member_id = ?";
+		int result = 0;
+		try {
+			con = DBUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, rateNo);
+			ps.setString(2, memberId);
+
+			result = ps.executeUpdate();
+		} finally {
+			DBUtil.dbClose(con, ps);
+		}
+		return result;
+	}
+
+	// 검색 - 내가 쓴 평점 보기
+	@Override
+	public List<Rate> rateSelectByID(String memberId) throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "select rate_no, movie_title, rate from rate join movie using (movie_no) where member_id = ?";
+		List<Rate> list = new ArrayList<>();
+		try {
+			con = DBUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setString(1, memberId);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				Rate rate = new Rate(rs.getInt(1), memberId, 0, rs.getInt(3));
+				rate.setMovieName(rs.getString(2));
+				list.add(rate);
+			}
+		} finally {
+			DBUtil.dbClose(con, ps, rs);
+		}
+		return list;
 	}
 
 }

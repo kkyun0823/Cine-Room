@@ -9,6 +9,8 @@ public class Rate {
 	private int movieNo;
 	private int rate;
 	
+	private String movieName;
+	
 	public Rate() {}
 	public Rate(int rateNo, String memberId, int movieNo, int rate) {
 		super();
@@ -40,6 +42,24 @@ public class Rate {
 	}
 	public void setRate(int rate) {
 		this.rate = rate;
+	}
+	public String getMovieName() {
+		return movieName;
+	}
+	public void setMovieName(String movieName) {
+		this.movieName = movieName;
+	}
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("[코드=");
+		builder.append(rateNo);
+		builder.append(", 영화이름=");
+		builder.append(movieName);
+		builder.append(", 평점=");
+		builder.append(rate);
+		builder.append("]");
+		return builder.toString();
 	}
 	
 }

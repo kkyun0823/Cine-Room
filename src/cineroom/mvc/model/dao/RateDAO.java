@@ -21,17 +21,17 @@ public interface RateDAO {
 	/**
 	 * 영화의 평점 입력하기
 	 * */
-	public int setMovieRate(int movieNo, String memberId ,int rate) throws SQLException;
+	public int setMovieRate(Rate rate) throws SQLException;
 	
 	/**
 	 * 작성한 영화의 평점 삭제하기
 	 * */
-	public int deleteMovieRate(Member member, Movie movie) throws SQLException;
+	public int deleteMovieRate(int rateNo, String memberId) throws SQLException;
 	
 	/**
 	 * 사용자가 작성한 영화 평점 검색
 	 * */
-	public List<Rate> rateSelectByID(Member member) throws SQLException;
+	public List<Rate> rateSelectByID(String memberId) throws SQLException;
 	
 	
 }

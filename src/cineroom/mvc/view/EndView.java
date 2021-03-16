@@ -4,6 +4,7 @@ import java.util.List;
 
 import cineroom.mvc.model.dto.Board;
 import cineroom.mvc.model.dto.Movie;
+import cineroom.mvc.model.dto.Rate;
 
 public class EndView {
 	public static void printMovieList(List<Movie> list) {
@@ -51,6 +52,14 @@ public class EndView {
 	}
 
 	public static void printMessage(String message) {
+		System.out.println(message);
+	}
 
+	public static void printRateList(List<Rate> rateList) {
+		System.out.println("*****내가 작성한 평점 (" + rateList.size() + "건)*****");
+		for (Rate dto : rateList) {
+			System.out.println(dto);
+		}
+		System.out.println();
 	}
 }

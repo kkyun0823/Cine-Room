@@ -32,32 +32,27 @@ public class RateService {
 	 * */
 	 public boolean checkRate(String memberId, int movieNo) throws SQLException{
 		 boolean result = rateDao.checkRate(memberId, movieNo);
-		 if(result == true) {
-			 throw new SQLException("이미 평점 등록을 하셨습니다!");
-			 
-		 }
 		 return result; 
 	 }
 
 	/**
 	 * 영화의 평점 입력하기
 	 * */
-	public int setMovieRate(int movieNo, String memberId ,int rate) throws SQLException{
-		int result = rateDao.setMovieRate(movieNo, memberId, rate);
+	public int setMovieRate(Rate rate) throws SQLException{
+		int result = rateDao.setMovieRate(rate);
 		if(result == 0) {
 			throw new SQLException("평점 등록에 실패하였습니다.");
 		}
 		return result;
-		
 	}
 	
 	/**
 	 * 작성한 영화의 평점 삭제하기
 	 * */
-	public int deleteMovieRate(Member member, Movie movie) throws SQLException{
-		int result = rateDao.deleteMovieRate(member, movie);
+	public int deleteMovieRate(int rateNo, String memberId) throws SQLException{
+		int result = rateDao.deleteMovieRate(rateNo, memberId);
 		if(result == 0) {
-			throw new SQLException("평점이 삭제되지 않았습니다.");
+			throw new SQLException("해당되는 정보가 없어 삭제되지 않았습니다.");
 		}
 		return result;
 		
@@ -66,8 +61,8 @@ public class RateService {
 	/**
 	 * 사용자가 작성한 영화 평점 검색
 	 * */
-	public List<Rate> rateSelectByID(Member member) throws SQLException{
-		List<Rate> list= rateDao.rateSelectByID(member);
+	public List<Rate> rateSelectByID(String memberId) throws SQLException{
+		List<Rate> list= rateDao.rateSelectByID(memberId);
 		if(list.size()==0)throw new SQLException("등록된 평점이 없습니다.");
 		return list;
 	}

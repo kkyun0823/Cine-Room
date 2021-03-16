@@ -21,13 +21,15 @@ public class MovieController {
 		}
 	}
 	
-	public static void moviesSelectByTitle(String movieTitle) {
+	public static boolean moviesSelectByTitle(String movieTitle) {
+		boolean result =false;
 		try {
 			List<Movie> list = movieService.moviesSelectByTitle(movieTitle);
 			EndView.printMovieList(list);
 		} catch (SQLException e) {
 			FailView.printMessage(e.getMessage());
 		}
+		return result;
 	}
 
 	public static void moviesSelectByGenre(int genreNo) {
