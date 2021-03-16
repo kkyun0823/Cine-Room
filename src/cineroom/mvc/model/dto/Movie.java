@@ -117,7 +117,7 @@ public class Movie {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("[영화코드=");
+		builder.append(" [영화코드=");
 		builder.append(movieNo);
 		builder.append(" | 영화제목=");
 		builder.append(movieTitle);
@@ -129,7 +129,7 @@ public class Movie {
 		builder.append(runningTime);
 		builder.append(" | 영화감독=");
 		builder.append(movieDirector);
-		builder.append("]\n");
+		builder.append(" ]\n");
 		builder.append("\t 출연="+actorList+"\n");
 		double sum = 0;
 		double avg = 0;
