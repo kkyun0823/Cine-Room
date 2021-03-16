@@ -45,5 +45,21 @@ public class MovieService {
 		if(list.size()==0) throw new SQLException("ERROR : 현재 상영중인 영화정보가 없습니다.");
 		return list;
 	}
+	
+	public int deleteMovie(int targetNo)throws SQLException {
+		int result = movieDao.movieDelete(targetNo);
+		if(result==0) throw new SQLException("ERROR : 영화코드를 잘못 입력하셨습니다.");
+		return result;
+	}
+
+	public void addMovie(Movie movie) throws SQLException{
+		int result = movieDao.movieAdd(movie);
+		if(result==0) throw new SQLException("ERROR : 영화등록에 실패하였습니다. 다시한번 등록해주세요.");
+	}
+	
+	public void updateMovie(Movie movie)throws SQLException{
+		int result = movieDao.movieUpdate(movie);
+		if(result ==0) throw new SQLException("ERROR : 영화수정에 실패하였습니다.");
+	}
 
 }

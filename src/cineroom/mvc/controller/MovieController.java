@@ -69,4 +69,31 @@ public class MovieController {
 			FailView.printMessage(e.getMessage());
 		}
 	}
+	
+	public static void deleteMovie(int targetNo) {
+		try {
+			movieService.deleteMovie(targetNo);
+			EndView.printMessage("선택하신 영화가 삭제되었습니다.");
+		}catch (SQLException e) {
+			FailView.printMessage(e.getMessage());
+		}
+	}
+	
+	public static void addMovie(Movie movie) {
+		try {
+			movieService.addMovie(movie);
+			EndView.printMessage("새 영화가 등록되었습니다.");
+		}catch (SQLException e) {
+			FailView.printMessage(e.getMessage());
+		}
+	}
+
+	public static void updateMovie(Movie movie) {
+		try {
+			movieService.updateMovie(movie);
+			EndView.printMessage("영화가 수정되었습니다.");
+		}catch (SQLException e) {
+			FailView.printMessage(e.getMessage());
+		}
+	}
 }

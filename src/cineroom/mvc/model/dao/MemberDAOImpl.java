@@ -11,48 +11,42 @@ import java.util.Properties;
 import cineroom.mvc.model.dto.Member;
 import cineroom.mvc.util.DBUtil;
 
-
 public class MemberDAOImpl implements MemberDAO {
-	
-	
-	/**
-	 * 회원정보 전체 검색 
-	 * */
-	
-    public List<Member> memberSelectAll() throws SQLException{
-    		  Connection con = null;
-    		  PreparedStatement ps = null;
-    		  ResultSet rs = null;
-    		  List<Member> list = new ArrayList<Member>();
-    		  String sql = "select*from member ";
-    		  
-    		  try {
-    			  con = DBUtil.getConnection();
-    			  ps = con.prepareStatement(sql);
-    			  
-    			  rs = ps.executeQuery();
-    			  while(rs.next()) {
-    				 String memberId = rs.getString("member_id");
-    				 String name = rs.getString("name");
-    				 String birth = rs.getString("birth");		
 
-    				 
-    				 Member dto = new Member(memberId, null, name, birth, 0);
-    				 
-    				  
-    				 list.add(dto);
-    			  }
-    			  
-    		  }catch(SQLException e) {
-    			  e.printStackTrace();
-    		  }finally {
-    			  DBUtil.dbClose(con, ps, rs);
-    		  }
-    		  return list;
-    	}
-    
-    
-   
+	/**
+	 * 회원정보 전체 검색
+	 */
+
+	public List<Member> memberSelectAll() throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<Member> list = new ArrayList<Member>();
+		String sql = "select*from member ";
+
+		try {
+			con = DBUtil.getConnection();
+			ps = con.prepareStatement(sql);
+
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				if (rs.getInt("member_state") == 1) {
+					String memberId = rs.getString("member_id");
+					String name = rs.getString("member_name");
+					String birth = rs.getString("member_birth");
+					Member dto = new Member(memberId, null, name, birth, 0);
+					list.add(dto);
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.dbClose(con, ps, rs);
+		}
+		return list;
+	}
+
 	/**
 	 * 로그인
 	 */
@@ -157,7 +151,7 @@ public class MemberDAOImpl implements MemberDAO {
 	 * 회원정보 삭제
 	 */
 	@Override
-	public int memberDelete(Member member) throws SQLException {
+	public int memberDelete(String targetId) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		String sql = "update member set member_state = 0 where member_id = ?";
@@ -165,10 +159,8 @@ public class MemberDAOImpl implements MemberDAO {
 		try {
 			con = DBUtil.getConnection();
 			ps = con.prepareStatement(sql);
-			ps.setString(1, member.getMemberId());
-
+			ps.setString(1, targetId);
 			result = ps.executeUpdate();
-
 		} finally {
 			DBUtil.dbClose(con, ps);
 		}

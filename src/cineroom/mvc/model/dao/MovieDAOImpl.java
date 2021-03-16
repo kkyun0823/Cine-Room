@@ -213,7 +213,22 @@ public class MovieDAOImpl implements MovieDAO {
 
 	@Override
 	public int movieUpdate(Movie movie) throws SQLException {
-		return 0;
+		Connection con = null;
+		PreparedStatement ps = null;
+		String sql = "update movie set running_time = ?, movie_director = ?, movie_state = ? where movie_no =?";
+		int result = 0;
+		try {
+			con = DBUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, movie.getRunningTime());
+			ps.setString(2, movie.getMovieDirector());
+			ps.setInt(3, movie.getMovieState());
+			ps.setInt(4, movie.getMovieNo());
+			result = ps.executeUpdate();
+		} finally {
+			DBUtil.dbClose(con, ps);
+		}
+		return result;
 	}
 
 	@Override

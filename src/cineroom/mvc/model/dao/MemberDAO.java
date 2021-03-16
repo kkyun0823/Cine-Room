@@ -39,7 +39,7 @@ public interface MemberDAO {
 	/**
 	 * 회원정보 삭제 기능
 	 * */
-	public int memberDelete(Member member) throws SQLException;
+	public int memberDelete(String targetId) throws SQLException;
 	
 	/**
 	 * 선호장르 변경  

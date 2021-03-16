@@ -77,10 +77,10 @@ public class MemberService {
 	/**
 	 * 회원정보 삭제 실패
 	 */
-	public int memberDelete(Member member) throws SQLException {
-		int result = memberDao.memberDelete(member);
+	public int memberDelete(String targetId) throws SQLException {
+		int result = memberDao.memberDelete(targetId);
 		if (result == 0) {
-			throw new SQLException("회원정보 삭제에 실패했습니다. ");
+			throw new SQLException("해당하는 정보가 없어 삭제되지 않았습니다.");
 		}
 		return result;
 	}

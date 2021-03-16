@@ -4,6 +4,7 @@ import java.util.List;
 
 import cineroom.mvc.model.dto.Board;
 import cineroom.mvc.model.dto.Comments;
+import cineroom.mvc.model.dto.Member;
 import cineroom.mvc.model.dto.Movie;
 import cineroom.mvc.model.dto.Rate;
 
@@ -89,8 +90,12 @@ public class EndView {
 
 	}
 
-	public static void printMemberList() {
-
+	public static void printMemberList(List<Member> memberList) {
+		System.out.println("*****ÃÑ È¸¿ø¼ö ("+memberList.size()+"¸í)*****");
+		for(Member m : memberList) {
+			System.out.println(m);
+			System.out.println();
+		}
 	}
 
 	public static void printMessage(String message) {

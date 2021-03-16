@@ -78,18 +78,12 @@ public class Member {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Member [memberId=");
+		builder.append("[ 회원 ID=");
 		builder.append(memberId);
-		builder.append(", |  memberPassword=");
-		builder.append(memberPassword);
-		builder.append(", |  memberName=");
+		builder.append(", |  회원 이름=");
 		builder.append(memberName);
-		builder.append(", | memberBirth=");
+		builder.append(", |  회원 생년월일=");
 		builder.append(memberBirth.substring(0, 10));
-		builder.append(", |  memberState=");
-		builder.append(memberState);
-		builder.append(", |  genreList=");
-		builder.append(genreList);
 		builder.append("]");
 		return builder.toString();
 	}

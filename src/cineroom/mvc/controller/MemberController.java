@@ -3,36 +3,28 @@ package cineroom.mvc.controller;
 import java.sql.SQLException;
 import java.util.List;
 
-import cineroom.mvc.model.dto.Board;
 import cineroom.mvc.model.dto.Member;
-import cineroom.mvc.model.service.BoardService;
 import cineroom.mvc.model.service.MemberService;
 import cineroom.mvc.view.EndView;
 import cineroom.mvc.view.FailView;
 import cineroom.mvc.view.MenuView;
-import cineroom.mvc.view.TestView;
-
 
 public class MemberController {
 	private static MemberService memberService = new MemberService();
 
-	
 	/**
-	 * 회원정보 전체 검색 
-	 * */
-	
-	public static void memberSelectAll() throws SQLException{
+	 * 회원정보 전체 검색
+	 */
+
+	public static void memberSelectAll() {
 		try {
-		  List<Member> list =memberService.memberSelectAll();
-		  //MenuView.selectPrint(list);
-		}catch (SQLException e) {
+			List<Member> list = memberService.memberSelectAll();
+			EndView.printMemberList(list);
+		} catch (SQLException e) {
 			FailView.printMessage(e.getMessage());
 		}
 	}
-			
-			
-	
-	 
+
 	/**
 	 * 로그인
 	 */
@@ -42,7 +34,7 @@ public class MemberController {
 			if (member.getMemberState() == 1) {
 				MenuView.printUserMenu(memberId);
 			} else if (member.getMemberState() == 2) {
-				MenuView.printAdminMenu();
+				MenuView.printAdminMenu(memberId);
 			} else {
 				FailView.printMessage("삭제된 계정입니다.");
 			}
@@ -99,34 +91,33 @@ public class MemberController {
 	public static void changeFavNo(String memberId, List<Integer> favorList) {
 		try {
 			int result = memberService.changeFavNo(memberId, favorList);
-			EndView.printMessage(result+"개의 선호장르로 변경되었습니다.");
-			} catch (Exception e) {
+			EndView.printMessage(result + "개의 선호장르로 변경되었습니다.");
+		} catch (Exception e) {
 			FailView.printMessage(e.getMessage());
 		}
 	}
-	
+
 	public static void setFav(String memberId, List<Integer> favorList) {
 		try {
 			int result = memberService.setFav(memberId, favorList);
-			EndView.printMessage(result+"개의 관심장르가 등록되었습니다.");
-		}catch (SQLException e) {
+			EndView.printMessage(result + "개의 관심장르가 등록되었습니다.");
+		} catch (SQLException e) {
 			FailView.printMessage(e.getMessage());
 		}
 	}
-	
 
 	/**
 	 * 회원정보 삭제
 	 */
-//	public int memberDelete(Member member) {
-//
-//		try {
-//			int result = memberService.memberDelete(member);
-//			TestRateView.printMessage("회원정보가 삭제되었습니다.");
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//
-//	}
+	public static void memberDelete(String targetId) {
+
+		try {
+			memberService.memberDelete(targetId);
+			EndView.printMessage("선택하신 '"+targetId+"'회원이 삭제되었습니다.");
+		} catch (Exception e) {
+			FailView.printMessage(e.getMessage());
+		}
+
+	}
 
 }
