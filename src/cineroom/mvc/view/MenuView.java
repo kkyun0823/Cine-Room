@@ -68,6 +68,7 @@ public class MenuView {
 			System.out.print("사용하실 ID > ");
 			memberId = sc.nextLine();
 			// ID중복체크 메소드
+			
 			if (true) {
 				break;
 			}

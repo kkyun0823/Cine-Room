@@ -21,22 +21,32 @@ public class RateController {
 	public double getMovieRate(Movie movie) {
 		try {
 			double result =rateService.getMovieRate(movie);
-			TestRateView.printRateMenu();
+			//MenuView.printMessage();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
 		
 	}
+	/**
+	 * 해당 영화 평점 등록여부 체크  
+	 * */
 	
-	
-	
+	 public boolean checkRate (String memberId, int movieNo) {
+		 try {
+			 boolean result = rateService.checkRate(memberId, movieNo);
+			 //MenuView.prinMessage();
+		 }catch(SQLException e) {
+			 e.printStackTrace();
+		 }
+	 }
+
 	/**
 	 *평점 입력하기  
 	 **/
-	public int setMovieRate(int movieNo, String memberId ,int rate) {
+	public int setMovieRate(int movieNo, String memberId , double rate) {
 	  try {
 		  int result = rateService.setMovieRate(movieNo, memberId, rate);
-		  TestRateView.printMessage();
+		  //MenuView.printMessage();
 	  }catch(SQLException e) {
 		  e.printStackTrace();
 	  }
@@ -54,7 +64,7 @@ public class RateController {
 	public int deleteMovieRate(Member member, Movie movie) {
 		try {
 			int result = rateService.deleteMovieRate(member, movie);
-			TestRateView.printMessage();
+			//MenuView.printMessage();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -66,7 +76,7 @@ public class RateController {
 	public List<Rate> rateSelectByID(Member member){
 		try {
 			 List<Rate> rateList = rateService.rateSelectByID(member);
-			 TestRateView.printRateList(rateList);
+			 //MenuView.printRateList(rateList);
 		}catch (SQLException e) {
 			e.printStackTrace();
 			

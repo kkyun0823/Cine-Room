@@ -10,7 +10,9 @@ import cineroom.mvc.util.DBUtil;
 
 public class MemberDAOImpl implements MemberDAO {
 
-	//로그인
+	/**
+	 * 로그인
+	 */
 	
 	@Override
 	public Member login(String memberId, String memberPassword) throws SQLException {
@@ -34,7 +36,9 @@ public class MemberDAOImpl implements MemberDAO {
 		return member;
 	}
 
-	//회원가입  
+	/**
+	 * 회원가입  
+	 */
 	@Override
 	public int signUp(Member member) throws SQLException {
 		Connection con = null;
@@ -56,14 +60,45 @@ public class MemberDAOImpl implements MemberDAO {
 		return result;
 	}
 
-	//회원정보 수정  --선호장르수정  
+	
+	/**
+	 * 아이디 중복확인
+	 */
+	@Override
+	public boolean duplicateByMemberId(String memberId) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		boolean result = false;
+		String sql = "Select*from member where member_id = ? ";
+		try {
+			con = DBUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setString(1,memberId);
+			rs = ps.executeQuery();
+			
+			if(rs.next())result = true;
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			DBUtil.dbClose(con, ps);
+		}
+		return result;
+	}
+
+	
+	
+	/**
+	 * 회원정보 수정 - 비밀번호 변경  
+	 */
 	
 	@Override
 	public int memberUpdate(Member member) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		String sql = "update member set member_password = ? where member_id = ?  ";
-		int result = 0;  //여기 뭐 들어가야하는지  모르겠음 
+		int result = 0; 
 		try {
 			con = DBUtil.getConnection();
 			ps = con.prepareStatement(sql);
@@ -79,7 +114,9 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	
-	//회원정보 삭제  
+	/**
+	 * 회원정보 삭제  
+	 */
 	@Override
 	public int memberDelete(Member member) throws SQLException {
 		Connection con = null;
@@ -100,5 +137,27 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	
+	
+	/**
+	 * 선호장르 변경  - 
+	 * */
+	public int changeFavNo (Member member)throws SQLException{
+		Connection con = null;
+		PreparedStatement ps = null;
+		String sql = "update member_genre set genre_fav_no = ?  where member_id = ?";
+		int result = 0;
+		try {
+			con = DBUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1,genreFavNo());   
+			ps.setString(2, member.getMemberId());
+
+			result = ps.executeUpdate();
+			
+		} finally {
+			DBUtil.dbClose(con, ps);
+		}
+		return result;
+	}
 	
 }

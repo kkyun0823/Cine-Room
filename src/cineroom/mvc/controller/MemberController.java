@@ -21,11 +21,11 @@ public class MemberController {
 	public static void login(String memberId, String memberPassword) {
 		try {
 			Member member = memberService.login(memberId, memberPassword);
-			if(member.getMemberState()==1) {
+			if (member.getMemberState() == 1) {
 				MenuView.printUserMenu(memberId);
-			}else if(member.getMemberState()==2) {
+			} else if (member.getMemberState() == 2) {
 				MenuView.printAdminMenu();
-			}else {
+			} else {
 				FailView.printMessage("삭제된 계정입니다.");
 			}
 		} catch (Exception e) {
@@ -34,12 +34,29 @@ public class MemberController {
 	}
 
 	/**
+	 * 아이디 중복체크 - 중복 아닐 때
+	 */
+	public boolean duplicateByMemberId(String memberId) {
+		try {
+			boolean result = memberService.duplicateByMemberId(memberId);
+			if (result == false) {
+				EndView.printMessage("사용 가능한 아이디입니다. ");
+				return false;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return true; 
+	}
+
+	/**
 	 * 회원가입
 	 */
 	public static void signUp(Member member) {
 		try {
 			int result = memberService.signUp(member);
-			if(result!=1) throw new SQLException("회원가입에 실패했습니다.");
+			if (result != 1)
+				throw new SQLException("회원가입에 실패했습니다.");
 			System.out.println("회원가입 완료되었습니다!\n");
 		} catch (Exception e) {
 			FailView.printMessage(e.getMessage());
@@ -47,21 +64,34 @@ public class MemberController {
 	}
 
 	/**
-	 * 회원정보 수정
+	 * 회원정보 수정 -비밀번호 변경
 	 */
 //	public int memberUpdate(Member member) {
 //
 //		try {
-//			int result = memberService.memberUpdate(member); // 서비스를 출력하고
-//			TestRateView.printMessage("회원정보 수정을 완료하였습니다."); // 새로운 뷰로 가자
+//			int result = memberService.memberUpdate(member); 
+//			TestRateView.printMessage("회원정보 수정을 완료하였습니다."); 
 //		} catch (Exception e) {
 //			e.printStackTrace();
 //		}
 //	}
 
 	/**
-	 * 회원정보 삭제
+	 * 선호장르 수정
 	 */
+	public int changeFavNo (Member member) {
+		 try {
+				int result = memberService.changeFavNo(member);
+				//MenuView.printMessage("선호장르 수정을 완료하였습니다.");
+			} catch (Exception e) {
+				FailView.printMessage(e.getMessage());
+			}
+		}
+
+
+/**
+ * 회원정보 삭제
+ */
 //	public int memberDelete(Member member) {
 //
 //		try {

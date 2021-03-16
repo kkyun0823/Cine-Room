@@ -7,6 +7,7 @@ import cineroom.mvc.model.dao.MemberDAOImpl;
 import cineroom.mvc.model.dto.Member;
 import cineroom.mvc.session.Session;
 import cineroom.mvc.session.SessionSet;
+import cineroom.mvc.view.EndView;
 
 public class MemberService {
 	MemberDAO memberDao = new MemberDAOImpl();
@@ -36,9 +37,18 @@ public class MemberService {
 		return result;
 
 	}
-
+	
 	/**
-	 * 회원정보 수정실패
+	 * 아이디 중복체크 - 중복  
+	 * 
+	 * */
+	public boolean duplicateByMemberId(String memberId) throws SQLException {
+    		boolean result = memberDao.duplicateByMemberId(memberId);
+        	return result; 
+	}
+	
+	/**
+	 * 회원정보 수정 실패 - 비밀번호 변경  
 	 */
 	public int memberUpdate(Member member) throws SQLException {
 		int result = memberDao.memberUpdate(member);
@@ -59,4 +69,18 @@ public class MemberService {
 		}
 		return result;
 	}
+	
+
+	
+	/**
+	 * 선호장르 변경  // DAO에 추가하기 
+	 * */
+	public int changeFavNo() throws SQLException{
+		int result = memberDao.changeFavNo(member);
+		if (result == 0) {
+			throw new SQLException("선호장르 변경에 실패했습니다. ");
+		}
+		return result;
+	}
+	
 }

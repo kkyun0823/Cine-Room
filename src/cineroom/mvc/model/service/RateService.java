@@ -25,6 +25,20 @@ public class RateService {
 		}
 		return result;
 	}
+	
+	
+	/**
+	 * 해당 영화 평점 등록여부 체크  
+	 * */
+	 public boolean checkRate(String memberId, int movieNo) throws SQLException{
+		 boolean result = rateDao.checkRate(memberId, movieNo);
+		 if(result == true) {
+			 throw new SQLException("이미 평점 등록을 하셨습니다!");
+			 
+		 }
+		 return result; 
+	 }
+
 	/**
 	 * 영화의 평점 입력하기
 	 * */
