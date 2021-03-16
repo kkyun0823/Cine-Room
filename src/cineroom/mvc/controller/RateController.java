@@ -47,15 +47,15 @@ public class RateController {
 	/**
 	 * 평점 수정하기
 	 */
-	public static void modifyRate(int rateNo, String memberId) {
-		  try {
-			   rateService.modifyRate(rateNo, memberId);
-			  EndView.printMessage("등록하신 평점이 수정되었습니다.");
-		  }catch(SQLException e) {
-			  FailView.printMessage(e.getMessage());
-		  }
+	public static void modifyRate(int rateNo, String memberId, int newRate) {
+		try {
+			rateService.modifyRate(rateNo, memberId, newRate);
+			EndView.printMessage("등록하신 평점이 수정되었습니다.");
+		} catch (SQLException e) {
+			FailView.printMessage(e.getMessage());
 		}
-	
+	}
+
 	/**
 	 * 평점 삭제하기
 	 */

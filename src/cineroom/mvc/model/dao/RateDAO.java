@@ -27,7 +27,7 @@ public interface RateDAO {
 	 * 영화의 평점 수정하기 
 	 * */
 	
-	public int modifyRate(int rateNo, String memberId) throws SQLException;
+	public int modifyRate(int rateNo, String memberId, int newRate) throws SQLException;
 	
 
 	/**

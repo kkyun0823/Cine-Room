@@ -1,6 +1,7 @@
 package cineroom.mvc.model.dao;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import cineroom.mvc.model.dto.Member;
 
@@ -35,7 +36,11 @@ public interface MemberDAO {
 	/**
 	 * 선호장르 변경  
 	 * */
-	public int changeFavNo (Member member)throws SQLException;
+	public int changeFavNo (String memberId, List<Integer> favorList)throws SQLException;
 	
+	/**
+	 * 선호장르 입력
+	 * */
+	public int setFav(String memberId, List<Integer> favorList)throws SQLException;
 	
 }

@@ -1,5 +1,6 @@
 package cineroom.mvc.view;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -75,7 +76,6 @@ public class MenuView {
 				System.out.println("이미 사용중인 ID입니다.");
 				continue;
 			}
-			System.out.println("사용 가능한 ID입니다!");
 			break;
 		}
 
@@ -93,9 +93,22 @@ public class MenuView {
 		String memberName = sc.nextLine();
 		System.out.println("생년월일(YY-MM-DD) > ");
 		String memberBirth = sc.nextLine();
-
+		
+		List<Integer> favorList = new ArrayList<Integer>();
+		MenuView.printGenre();
+		System.out.print("선호하는 장르의 번호들을 입력해주세요. (','로 구분지어 입력해주세요.) > ");
+		String result = sc.nextLine();
+		String[] resultarr = result.split(",");
+		for(String s : resultarr) {
+			int temp = Integer.parseInt(s);
+			if(temp<0||temp>18) System.out.println("잘못된 입력은 제외되었습니다.");
+			else {
+				if(!favorList.contains(temp)) favorList.add(temp);
+			}
+		}
 		Member member = new Member(memberId, memberPassword, memberName, memberBirth, 0);
 		MemberController.signUp(member);
+		MemberController.setFav(memberId, favorList);
 	}
 
 	public static void signIn() {
@@ -135,6 +148,7 @@ public class MenuView {
 					MenuView.printBoardMenu(memberId);
 					break;
 				case 4:
+					MenuView.printMyPageMenu(memberId);
 					break;
 				case 9:
 					break;
@@ -244,11 +258,12 @@ public class MenuView {
 					MenuView.addRateMenu(memberId);
 					break;
 				case 2:
+					MenuView.modifyRateMenu(memberId);
 					break;
 				case 3:
 					MenuView.deleteRateMenu(memberId);
 					break;
-				case 6:
+				case 9:
 					break loop2;
 				default:
 					System.out.println("범위 내의 숫자로 입력해주세요.");
@@ -285,6 +300,24 @@ public class MenuView {
 		}
 		Rate r = new Rate(0, memberId, movieNo, rate);
 		RateController.setMovieRate(r);
+	}
+	
+	public static void modifyRateMenu(String memberId) {
+		RateController.rateSelectByID(memberId);
+		int rateNo =0;
+		int newRate = 0;
+		while(true) {
+			try {
+				System.out.print("수정하실 평점의 코드를 입력해주세요> ");
+				rateNo = Integer.parseInt(sc.nextLine());
+				break;
+			}catch (NumberFormatException e) {
+				System.out.println("코드는 숫자로 입력해 주세요.");
+			}
+		}
+		System.out.print("입력하실 평점을 입력해주세요> ");
+		newRate = Integer.parseInt(sc.nextLine());
+		RateController.modifyRate(rateNo,memberId, newRate);
 	}
 	
 	public static void deleteRateMenu(String memberId) {
@@ -452,9 +485,64 @@ public class MenuView {
 		BoardController.boardInsert(b);
 	}
 
-	public static void printMyPageMenu() {
-		
+	public static void printMyPageMenu(String memberId) {
+		//////////////비밀번호수정, 선호장르 수정, 작성한 글 보기, 작성한 댓글 보기
+		loop2 : while(true){
+			System.out.println("┌──────────────────────────────────────────────────────────────────────────────────────────────────┐");
+			System.out.println("│  1.비밀번호 수정  |  2.선호장르 수정  |  3.내가 작성한 글  |  4.내가 작성한 댓글  |  9.이전메뉴  │");
+			System.out.println("└──────────────────────────────────────────────────────────────────────────────────────────────────┘");
+			System.out.println();
+			System.out.print("이용하실 메뉴의 번호를 입력해주세요. > ");
+			int choice = Integer.parseInt(sc.nextLine());
+			switch (choice) {
+			case 1:
+				MenuView.printModifyPWMenu(memberId);
+				break;
+			case 2:
+				MenuView.printModifyMenu(memberId);
+				break;
+			case 3:
+				break;
+			case 4:
+				break;
+			case 9:
+				break loop2;
+			default:
+				break;
+			}
+		}
 	}
+	public static void printModifyMenu(String memberId) {
+		List<Integer> favorList = new ArrayList<Integer>();
+		MenuView.printGenre();
+		System.out.print("선호하는 장르의 번호들을 입력해주세요. (','로 구분지어 입력해주세요.) > ");
+		String result = sc.nextLine();
+		String[] resultarr = result.split(",");
+		for(String s : resultarr) {
+			int temp = Integer.parseInt(s);
+			if(temp<0||temp>18) System.out.println("잘못된 입력은 제외되었습니다.");
+			else {
+				if(!favorList.contains(temp)) favorList.add(temp);
+			}
+		}
+		MemberController.changeFavNo(memberId, favorList);
+	}
+	
+	public static void printModifyPWMenu(String memberId) {
+		String newPassword = "";
+		String newPassword2 = "";
+		while(true) {
+			System.out.print("변경하실 비밀번호를 입력해주세요. > ");
+			newPassword = sc.nextLine();
+			System.out.print("변경할 비밀번호 확인 >");
+			newPassword2 = sc.nextLine();
+			if(newPassword.equals(newPassword2)) break;
+			System.out.println("비밀번호 확인이 일치하지 않습니다. 다시 입력해주세요.");
+		}
+		Member member = new Member(memberId, newPassword, null, null, 0);
+		MemberController.memberUpdate(member);
+	}
+	
 	//관리자 계정 만든 이후에 진행
 	public static void printBoardMangeMenu() {
 		

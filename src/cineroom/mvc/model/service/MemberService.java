@@ -1,6 +1,7 @@
 package cineroom.mvc.model.service;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import cineroom.mvc.model.dao.MemberDAO;
 import cineroom.mvc.model.dao.MemberDAOImpl;
@@ -70,13 +71,21 @@ public class MemberService {
 		return result;
 	}
 	
+	public int setFav(String memberId, List<Integer> favorList) throws SQLException{
+		int result = memberDao.setFav(memberId, favorList);
+		if(result == 0) {
+			throw new SQLException("관심장르가 등록되지 않았습니다. 마이페이지에서 다시 추가해주세요!");
+		}
+		return result;
+	}
+	
 
 	
 	/**
 	 * 선호장르 변경  // DAO에 추가하기 
 	 * */
-	public int changeFavNo() throws SQLException{
-		int result = memberDao.changeFavNo(member);
+	public int changeFavNo(String memberId, List<Integer> favorList) throws SQLException{
+		int result = memberDao.changeFavNo(memberId, favorList);
 		if (result == 0) {
 			throw new SQLException("선호장르 변경에 실패했습니다. ");
 		}

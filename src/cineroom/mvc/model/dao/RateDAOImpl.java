@@ -98,25 +98,24 @@ public class RateDAOImpl implements RateDAO {
 	 *  등록한 평점 수정
 	 */
 	
-	public int modifyRate(int rateNo, String memberId) throws SQLException {
-
+	public int modifyRate(int rateNo, String memberId, int newRate) throws SQLException {
 		 Connection con = null;
 		 PreparedStatement ps = null;
 		 int result = 0;
 		 
-		 String sql = "update rate set rate_no= ? where member_id = ? ";
+		 String sql = "update rate set rate= ? where member_id = ? and rate_no = ?";
 		 		try {
 		 			con = DBUtil.getConnection();
 		 			ps = con.prepareStatement(sql);
-		 			ps.setInt(1, rateNo);
+		 			ps.setInt(1, newRate);
 		 			ps.setString(2, memberId);
-		 			
+		 			ps.setInt(3, rateNo);
+		 			result = ps.executeUpdate();
 		 		}catch(SQLException e){
 		 			e.printStackTrace();
 		 		}finally {
 		 			DBUtil.dbClose(con, ps);
 		 		}
-		 		
 		 return result;
 		}
 		

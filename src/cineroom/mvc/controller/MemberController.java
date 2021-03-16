@@ -46,7 +46,7 @@ public class MemberController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return true; 
+		return true;
 	}
 
 	/**
@@ -66,32 +66,40 @@ public class MemberController {
 	/**
 	 * 회원정보 수정 -비밀번호 변경
 	 */
-//	public int memberUpdate(Member member) {
-//
-//		try {
-//			int result = memberService.memberUpdate(member); 
-//			TestRateView.printMessage("회원정보 수정을 완료하였습니다."); 
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
+	public static void memberUpdate(Member member) {
+		try {
+			memberService.memberUpdate(member);
+			EndView.printMessage("비밀번호가 수정되었습니다.");
+		} catch (Exception e) {
+			FailView.printMessage(e.getMessage());
+		}
+	}
 
 	/**
 	 * 선호장르 수정
 	 */
-	public int changeFavNo (Member member) {
-		 try {
-				int result = memberService.changeFavNo(member);
-				MenuView.printMessage("선호장르 수정을 완료하였습니다.");
+	public static void changeFavNo(String memberId, List<Integer> favorList) {
+		try {
+			int result = memberService.changeFavNo(memberId, favorList);
+			EndView.printMessage(result+"개의 선호장르로 변경되었습니다.");
 			} catch (Exception e) {
-				FailView.printMessage(e.getMessage());
-			}
+			FailView.printMessage(e.getMessage());
 		}
+	}
+	
+	public static void setFav(String memberId, List<Integer> favorList) {
+		try {
+			int result = memberService.setFav(memberId, favorList);
+			EndView.printMessage(result+"개의 관심장르가 등록되었습니다.");
+		}catch (SQLException e) {
+			FailView.printMessage(e.getMessage());
+		}
+	}
+	
 
-
-/**
- * 회원정보 삭제
- */
+	/**
+	 * 회원정보 삭제
+	 */
 //	public int memberDelete(Member member) {
 //
 //		try {
