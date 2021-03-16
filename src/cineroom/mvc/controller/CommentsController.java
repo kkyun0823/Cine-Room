@@ -67,8 +67,13 @@ public class CommentsController {
 	 * 입력받은 글번호를 commentsNo로 바꿔준다.
 	 * */
 	public static int getCommentsNoByList (List<Comments> list, int no) {
+		try {
 		int commentsNo = list.get(no-1).getCommentsNo();
 		return commentsNo;
+		}catch (IndexOutOfBoundsException e) {
+			
+			return -1;
+		}
 	}
 	
 	public static List<Comments> commentsSelectAll() {

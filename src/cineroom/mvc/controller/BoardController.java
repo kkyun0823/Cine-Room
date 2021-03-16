@@ -102,7 +102,12 @@ public class BoardController {
 	 * 입력받은 글번호를 boardNo로 바꿔준다.
 	 * */
 	public static int getBoardNoByList (List<Board> list, int no) {
+		try {
 		int boardNo = list.get(no-1).getBoardNo();
 		return boardNo;
+		}catch(IndexOutOfBoundsException e) {
+			
+			return -1;
+		}
 	}
 }
