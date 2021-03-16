@@ -2,15 +2,11 @@ package cineroom.mvc.controller;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Scanner;
 
-import cineroom.mvc.model.dao.BoardDAOImpl;
 import cineroom.mvc.model.dto.Board;
-import cineroom.mvc.model.dto.Movie;
 import cineroom.mvc.model.service.BoardService;
 import cineroom.mvc.view.EndView;
 import cineroom.mvc.view.FailView;
-import cineroom.mvc.view.TestBoardView;
 
 public class BoardController {
 
@@ -23,7 +19,7 @@ public class BoardController {
 
 		try {
 			List<Board> list = boardService.boardSelectAll();
-			EndView.printBoardList(list);
+			
 			return list;
 		} catch (SQLException e) {
 			FailView.printMessage(e.getMessage());
@@ -37,7 +33,7 @@ public class BoardController {
 	public static List<Board> boardSelectByGenre(int genreNo) {
 		try {
 			List<Board> list = boardService.boardSelectByGenre(genreNo);
-			EndView.printBoardList(list);
+			
 			return list;
 		} catch (SQLException e) {
 			FailView.printMessage(e.getMessage());
@@ -51,7 +47,7 @@ public class BoardController {
 	public static List<Board> boardSelectByID(String memberId) {
 		try {
 			List<Board> list = boardService.boardSelectByID(memberId);
-			EndView.printBoardList(list);
+			
 			return list;
 		} catch (SQLException e) {
 			FailView.printMessage(e.getMessage());

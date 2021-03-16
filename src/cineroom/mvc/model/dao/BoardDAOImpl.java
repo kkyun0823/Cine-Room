@@ -180,6 +180,7 @@ public class BoardDAOImpl implements BoardDAO {
 
 		try {
 			con = DBUtil.getConnection();
+			commentsDeleteByBoardNo(con, boardNo);
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, boardNo);
 			result = ps.executeUpdate();
@@ -189,6 +190,24 @@ public class BoardDAOImpl implements BoardDAO {
 		}
 
 		return result;
+	}
+
+	@Override
+	public int commentsDeleteByBoardNo(Connection con ,int boardNo) throws SQLException {
+		PreparedStatement ps = null;
+		String sql = "delete from comments where board_no = ?";
+		int result = 0;
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, boardNo);
+			result = ps.executeUpdate();
+
+		} finally {
+			DBUtil.dbClose(null, ps);
+		}
+
+		return result;
+	
 	}
 
 }

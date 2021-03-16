@@ -21,7 +21,7 @@ public class CommentsController {
 			
 			return list;
 		} catch (SQLException e) {
-			
+			FailView.printMessage(e.getMessage());
 			return null;
 		}
 	}
@@ -32,7 +32,7 @@ public class CommentsController {
 	public static List<Comments> commentsSelectByID(String memberId) {
 		try {
 			List<Comments> list = commentsService.commentsSelectByID(memberId);
-			EndView.printCommentsListById(list);
+			
 			return list;
 		} catch (SQLException e) {
 			FailView.printMessage(e.getMessage());
@@ -76,12 +76,12 @@ public class CommentsController {
 		}
 	}
 	
-	public static List<Comments> commentsSelectAll() {
-		try {
-			List<Comments> list = commentsService.commentsSelectAll();
-			return list;
-		} catch (SQLException e) {
-			return null;
-		}
-	}
+//	public static List<Comments> commentsSelectAll() {
+//		try {
+//			List<Comments> list = commentsService.commentsSelectAll();
+//			return list;
+//		} catch (SQLException e) {
+//			return null;
+//		}
+//	}
 }

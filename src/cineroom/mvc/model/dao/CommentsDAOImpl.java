@@ -112,35 +112,35 @@ public class CommentsDAOImpl implements CommentsDAO {
 		return result;
 	}
 
-	@Override
-	public List<Comments> commentsSelectAll() throws SQLException {
-		Connection con = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		List<Comments> list = new ArrayList<Comments>();
-		String sql = "select * from comments";
-		try {
-			con = DBUtil.getConnection();
-			ps = con.prepareStatement(sql);
-			rs = ps.executeQuery();
-			while (rs.next()) {
-				int commentsNo = rs.getInt("comments_no");
-				int boardNos = rs.getInt("board_no");
-				String memberId = rs.getString("member_id");
-				String commentsContent = rs.getString("comments_content");
-				String commentsDate = rs.getString("comments_date");
-			
-				Comments dto = new Comments(commentsNo, boardNos, memberId, commentsContent, commentsDate);
-				list.add(dto);
-			
-			
-			
-			}
-		} finally {
-			DBUtil.dbClose(con, ps, rs);
-		}
-		return list;
-		
-	}
+	//@Override
+//	public List<Comments> commentsSelectAll() throws SQLException {
+//		Connection con = null;
+//		PreparedStatement ps = null;
+//		ResultSet rs = null;
+//		List<Comments> list = new ArrayList<Comments>();
+//		String sql = "select * from comments";
+//		try {
+//			con = DBUtil.getConnection();
+//			ps = con.prepareStatement(sql);
+//			rs = ps.executeQuery();
+//			while (rs.next()) {
+//				int commentsNo = rs.getInt("comments_no");
+//				int boardNos = rs.getInt("board_no");
+//				String memberId = rs.getString("member_id");
+//				String commentsContent = rs.getString("comments_content");
+//				String commentsDate = rs.getString("comments_date");
+//			
+//				Comments dto = new Comments(commentsNo, boardNos, memberId, commentsContent, commentsDate);
+//				list.add(dto);
+//			
+//			
+//			
+//			}
+//		} finally {
+//			DBUtil.dbClose(con, ps, rs);
+//		}
+//		return list;
+//		
+//	}
 
 }

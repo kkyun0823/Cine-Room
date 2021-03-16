@@ -125,7 +125,6 @@ public class MenuView {
 	}
 
 	public static void printUserMenu(String memberId) {
-		System.out.println(memberId + "님 반갑습니다!");
 		MenuView.printRecommenMsg(memberId);
 		while (true) {
 			SessionSet ss = SessionSet.getInstance();
@@ -182,7 +181,7 @@ public class MenuView {
 
 				switch (menuSelect) {
 				case 1:
-					BoardView.printBoardMangeMenu();
+					BoardView.printBoardMangeMenu(memberId);
 					break;
 				case 2:
 					MenuView.printOperationMangeMenu();
@@ -388,7 +387,7 @@ public class MenuView {
 
 	public static void printMyPageMenu(String memberId) {
 		////////////// 비밀번호수정, 선호장르 수정, 작성한 글 보기, 작성한 댓글 보기
-		loop2: while (true) {
+		 while (true) {
 			System.out.println(
 					"┌──────────────────────────────────────────────────────────────────────────────────────────────────┐");
 			System.out.println("│  1.비밀번호 수정  |  2.선호장르 수정  |  3.내가 작성한 글  |  4.내가 작성한 댓글  |  9.이전메뉴  │");
@@ -406,14 +405,18 @@ public class MenuView {
 				break;
 			case 3:
 				List<Board> list = BoardController.boardSelectByID(memberId);
+				
+				if(list!= null)
 				BoardView.printBoardMyPageMenu(list, memberId);
 				break;
 			case 4:
 				List<Comments> colist = CommentsController.commentsSelectByID(memberId);
-				BoardView.printCommentMypageMenu(colist);
+				if(colist!= null)
+				BoardView.printCommentMypageMenu(colist,memberId);
 				break;
 			case 9:
-				break loop2;
+				printUserMenu(memberId);
+				break;
 			default:
 				break;
 			}

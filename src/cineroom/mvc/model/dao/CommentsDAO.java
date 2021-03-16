@@ -6,10 +6,10 @@ import java.util.List;
 import cineroom.mvc.model.dto.Comments;
 
 public interface CommentsDAO {
-	/**
-	 * 모든 댓글 가져오기
-	 * */
-	public List<Comments> commentsSelectAll () throws SQLException;
+//	/**
+//	 * 모든 댓글 가져오기
+//	 * */
+//	public List<Comments> commentsSelectAll () throws SQLException;
 	
 	
 	/**

@@ -43,9 +43,9 @@ public class CommentsService {
 		}
 	}
 	
-	public List<Comments> commentsSelectAll() throws SQLException {
-		List<Comments> list = commentsDAO.commentsSelectAll();
-		return list;
-	}
+//	public List<Comments> commentsSelectAll() throws SQLException {
+//		List<Comments> list = commentsDAO.commentsSelectAll();
+//		return list;
+//	}
 
 }

@@ -32,6 +32,7 @@ public class MemberController {
 		try {
 			Member member = memberService.login(memberId, memberPassword);
 			if (member.getMemberState() == 1) {
+				System.out.println(memberId + "´Ô ¹Ý°©½À´Ï´Ù.!");
 				MenuView.printUserMenu(memberId);
 			} else if (member.getMemberState() == 2) {
 				MenuView.printAdminMenu(memberId);

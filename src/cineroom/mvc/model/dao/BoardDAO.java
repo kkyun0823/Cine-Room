@@ -1,5 +1,6 @@
 package cineroom.mvc.model.dao;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -45,4 +46,10 @@ public interface BoardDAO {
 	 * 게시판에 글 삭제
 	 */
 	public int boardDelete(int boardNo) throws SQLException;
+	
+	/**
+	 * 
+	 * */
+	public int commentsDeleteByBoardNo (Connection con ,int boardNo) throws SQLException;
+	
 }

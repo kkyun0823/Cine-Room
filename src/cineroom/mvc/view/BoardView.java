@@ -13,7 +13,6 @@ public class BoardView {
 	private static Scanner sc = new Scanner(System.in);
 	
 	public static void printBoardMenu(String memberId) {
-		loop1:
 		while(true) {
 			System.out.println("***********리뷰 게시판 메뉴입니다***********");
 			System.out.println("┌──────────────────────────────────────────────────────────────────┐");
@@ -26,6 +25,7 @@ public class BoardView {
 				switch (menu) {
 				case 1:
 					List<Board> list = BoardController.boardSelectByAll();
+					if(list!=null)
 					printBoardByNoMenu(list, memberId);
 						
 					break;
@@ -36,7 +36,8 @@ public class BoardView {
 					printInsertBoardMenu(memberId);
 					break;
 				case 9:
-					break loop1;
+					MenuView.printUserMenu(memberId);
+					break;
 				default:
 					System.out.println("범위 내의 숫자로 입력해주세요.");
 					break;
@@ -48,7 +49,7 @@ public class BoardView {
 		}
 	}
 	public static void printBoardByNoMenu (List<Board> list ,String memeberId) {
-		loop1:
+	        EndView.printBoardList(list);	
 			while(true) {
 				try {
 					System.out.println("┌────────────────────────────┐");
@@ -64,11 +65,11 @@ public class BoardView {
 							int boardNo = BoardController.getBoardNoByList(list, no);
 							BoardController.boardSelectByNo(boardNo);
 							if(boardNo!=-1) 
-							printCommentMenu(memeberId, boardNo);
-							
+							printCommentMenu(memeberId, boardNo, list);
 							break;
 						case 2:
-							break loop1;
+							printBoardMenu(memeberId);
+							break; 
 						default:
 							System.out.println("범위 내의 숫자로 입력해주세요.");
 							break;
@@ -80,6 +81,7 @@ public class BoardView {
 	}
 	
 	public static void printSearchBoardByGenre(String memberId) {
+		
 		while(true) {
 			MenuView.printGenre();
 			try {
@@ -90,7 +92,7 @@ public class BoardView {
 					continue;
 				}
 				List<Board> list= BoardController.boardSelectByGenre(genreNo);
-				printBoardByNoMenu(list, memberId);
+				if(list != null)printBoardByNoMenu(list, memberId);
 				break;
 			}catch (NumberFormatException e) {
 				System.out.println("숫자로 입력해 주세요.");
@@ -118,8 +120,7 @@ public class BoardView {
 		BoardController.boardInsert(b);
 	}
 	
-	public static void printCommentMenu(String memberId, int boardNo) {
-		loop1:
+	public static void printCommentMenu(String memberId, int boardNo, List<Board> list ) {
 		while(true) {
 			try {
 				System.out.println("┌──────────────────────────────┐");
@@ -130,9 +131,12 @@ public class BoardView {
 				switch (menuNo){
 					case 1:
 						printInsertCommentsMenu(memberId, boardNo);
+						
 						break;
 					case 2:
-						break loop1;
+						
+						printBoardMenu(memberId);
+						break;
 					default:
 						System.out.println("범위 내의 숫자로 입력해주세요.");
 						break;
@@ -153,12 +157,13 @@ public class BoardView {
 	}
 	
 	//마이페이지 내 글 조회 및 삭제
-	public static void printBoardMyPageMenu (List<Board> list ,String memeberId) {
-		loop1:
+	public static void printBoardMyPageMenu (List<Board> list ,String memberId) {
+		
+		EndView.printBoardList(list);
 			while(true) {
 				try {
 					System.out.println("┌────────────────────────────┐");
-					System.out.println("│ 1. 글조회  | 2. 글삭제  3. 이전메뉴  │");
+					System.out.println("│ 1. 글조회  | 2. 글삭제  │ 3. 이전메뉴  │");
 					System.out.println("└────────────────────────────┘");
 					System.out.print("메뉴번호를 입력해주세요 > ");
 					int menuNo = Integer.parseInt(sc.nextLine());
@@ -168,6 +173,7 @@ public class BoardView {
 							System.out.print("글조회를 원하시는 글번호를 입력해주세요 > ");
 							int no1 = Integer.parseInt(sc.nextLine());
 							int boardNo1 = BoardController.getBoardNoByList(list, no1);
+							if(list!=null)
 							BoardController.boardSelectByNo(boardNo1);
 							break;
 						case 2:
@@ -175,9 +181,12 @@ public class BoardView {
 							System.out.print("삭제하실 글번호를 입력해주세요 > ");
 							int no2 = Integer.parseInt(sc.nextLine());
 							int boardNo2 = BoardController.getBoardNoByList(list, no2);
+							if(boardNo2 != -1)
 							BoardController.boardDelete(boardNo2);
+							break;
 						case 3:
-							break loop1;
+							MenuView.printMyPageMenu(memberId);
+							break;
 						default:
 							System.out.println("범위 내의 숫자로 입력해주세요.");
 							break;
@@ -189,8 +198,8 @@ public class BoardView {
 	}
 	
 	//마이페이지 내 댓글 보기 및 삭제
-	public static void printCommentMypageMenu(List<Comments> list) {
-		loop1:
+	public static void printCommentMypageMenu(List<Comments> list, String memberId) {
+		EndView.printCommentsListById(list);
 		while(true) {
 			try {
 				System.out.println("┌──────────────────────────────┐");
@@ -204,10 +213,12 @@ public class BoardView {
 						System.out.print("삭제하실 댓글번호를 입력해주세요 > ");
 						int no = Integer.parseInt(sc.nextLine());
 						int commentNo = CommentsController.getCommentsNoByList(list, no);
+						if(list != null)
 						CommentsController.commentsDelete(commentNo);
 						break;
 					case 2:
-						break loop1;
+						MenuView.printMyPageMenu(memberId);
+						break;
 					default:
 						System.out.println("범위 내의 숫자로 입력해주세요.");
 						break;
@@ -218,8 +229,8 @@ public class BoardView {
 		}
 	}
 	//관리자 계정으로 접속 후 게시판 관리 메소드
-	public static void printBoardMangeMenu() {
-		loop1:
+	public static void printBoardMangeMenu(String memberId) {
+		
 		while(true) {
 			System.out.println("***********리뷰 게시판 관리 메뉴입니다***********");
 			System.out.println("┌──────────────────────────────────────────────────────────────────┐");
@@ -232,14 +243,15 @@ public class BoardView {
 				switch (menu) {
 				case 1:
 					List<Board> list = BoardController.boardSelectByAll();
-					printBoardMangeByNoMenu(list);
+					if(list!=null)
+					printBoardMangeByNoMenu(list , memberId);
 						
 					break;
 				case 2:
-					printSearchBoardMangeByGenre();
+					printSearchBoardMangeByGenre(memberId);
 					break;
 				case 9:
-					break loop1;
+					MenuView.printAdminMenu(memberId);
 				default:
 					System.out.println("범위 내의 숫자로 입력해주세요.");
 					break;
@@ -250,12 +262,12 @@ public class BoardView {
 		}
 	}
 	
-	public static void printBoardMangeByNoMenu (List<Board> list ) {
-		loop1:
-			while(true) {
+	public static void printBoardMangeByNoMenu (List<Board> list, String memeberId ) {
+		EndView.printBoardList(list);	
+		while(true) {
 				try {
 					System.out.println("┌────────────────────────────┐");
-					System.out.println("│ 1. 글조회  | 2. 글삭제  3. 이전메뉴  │");
+					System.out.println("│ 1. 글조회  | 2. 글삭제  │ 3. 이전메뉴  │");
 					System.out.println("└────────────────────────────┘");
 					System.out.print("메뉴번호를 입력해주세요 > ");
 					int menuNo = Integer.parseInt(sc.nextLine());
@@ -266,16 +278,23 @@ public class BoardView {
 							int no1 = Integer.parseInt(sc.nextLine());
 							int boardNo1 = BoardController.getBoardNoByList(list, no1);
 							BoardController.boardSelectByNo(boardNo1);
-							printCommentMangeMenu(boardNo1);
+							if(boardNo1!=-1) 
+							printCommentMangeMenu(list, boardNo1, memeberId);
 							break;
 						case 2:
 							System.out.println();
 							System.out.print("삭제하실 글번호를 입력해주세요 > ");
 							int no2 = Integer.parseInt(sc.nextLine());
 							int boardNo2 = BoardController.getBoardNoByList(list, no2);
+							if(boardNo2!= -1) {
 							BoardController.boardDelete(boardNo2);
+							}
+							else {
+							System.out.println("없는 번호입니다.");}
+							break;
 						case 3:
-							break loop1;
+							printBoardMangeMenu(memeberId);
+							break;
 						default:
 							System.out.println("범위 내의 숫자로 입력해주세요.");
 							break;
@@ -286,7 +305,7 @@ public class BoardView {
 			}
 	}
 	
-	public static void printSearchBoardMangeByGenre() {
+	public static void printSearchBoardMangeByGenre(String memberId) {
 		while(true) {
 			MenuView.printGenre();
 			try {
@@ -297,16 +316,16 @@ public class BoardView {
 					continue;
 				}
 				List<Board> list= BoardController.boardSelectByGenre(genreNo);
-				printBoardMangeByNoMenu(list);
-				break;
+				if(list!=null) printBoardMangeByNoMenu(list, memberId);
+				continue;
 			}catch (NumberFormatException e) {
 				System.out.println("숫자로 입력해 주세요.");
 			}
 		}
 	}
 	
-	public static void printCommentMangeMenu(int boardNo) {
-		loop1:
+	public static void printCommentMangeMenu(List<Board> list, int boardNo, String memberId) {
+		
 		while(true) {
 			try {
 				System.out.println("┌──────────────────────────────┐");
@@ -319,12 +338,15 @@ public class BoardView {
 						System.out.println();
 						System.out.print("삭제하실 댓글번호를 입력해주세요 > ");
 						int no = Integer.parseInt(sc.nextLine());
-						List<Comments> list = CommentsController.commentsSelectByBoardNo(boardNo);
-						int commentNo = CommentsController.getCommentsNoByList(list, no);
+						List<Comments> list2 = CommentsController.commentsSelectByBoardNo(boardNo);
+						if(list!=null) {
+						int commentNo = CommentsController.getCommentsNoByList(list2, no);
 						CommentsController.commentsDelete(commentNo);
+						}
 						break;
 					case 2:
-						break loop1;
+						printBoardMangeMenu(memberId);
+						break ;
 					default:
 						System.out.println("범위 내의 숫자로 입력해주세요.");
 						break;

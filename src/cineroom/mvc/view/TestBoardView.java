@@ -255,7 +255,7 @@ public class TestBoardView {
 //		Board b = list.get(2-1);
 //		Board b = bd.boardSelect(list.get(inp-1));
 //		System.out.println(b);
-		TestBoardView.printBoardMangeMenu("jungwoo123");
+		//TestBoardView.printBoardMangeMenu("jungwoo123");
 
 		// 유저가 리뷰게시판 항목을 선택했을시
 //		while (true) {
