@@ -64,6 +64,19 @@ public class TestMemberView {
 		MemberController.login(memberId, memberPassword); 
 	}
 	
+	/**
+	 * 중복체크 
+	 * */
+	
+	//EmpDTO empDTO = new EmpDTO(9000, "송중기", "배우", 8000, null);
+	 if(dao.duplicateByEmpno(empDTO.getEmpno())) {
+		 //오류메세지
+		 EndView.printMessage(empDTO.getEmpno() + "는 중복으로 등록할 수 없습니다. ");
+	 }else {
+		 int result = dao.empInsert(empDTO);
+		 if(result ==0) EndView.printMessage(result + "등록되지 않았습니다.");
+	     else EndView.printMessage(result + "등륵되었습니다.");
+		
 	
 	/**
 	 * 사용자 로그인 후 정보변경 

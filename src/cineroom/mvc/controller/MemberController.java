@@ -34,6 +34,22 @@ public class MemberController {
 	}
 
 	/**
+	 * 아이디 중복체크 - 중복 아닐 때  
+	 * */
+	public boolean duplicateByMemberId(String memberId) {
+        try{
+    		boolean result = memberService.duplicateByMemberId(memberId);
+        	if(result == false) {
+        		EndView.printMessage("사용 가능한 아이디입니다. ");
+        } catch (Exception e) {
+        		e.printStackTrace();
+            }
+	}
+	
+
+
+
+	/**
 	 * 회원가입
 	 */
 	public static void signUp(Member member) {
@@ -47,18 +63,34 @@ public class MemberController {
 	}
 
 	/**
-	 * 회원정보 수정
+	 * 회원정보 수정 -비밀번호 변경  
 	 */
 //	public int memberUpdate(Member member) {
 //
 //		try {
-//			int result = memberService.memberUpdate(member); // 서비스를 출력하고
-//			TestRateView.printMessage("회원정보 수정을 완료하였습니다."); // 새로운 뷰로 가자
+//			int result = memberService.memberUpdate(member); 
+//			TestRateView.printMessage("회원정보 수정을 완료하였습니다."); 
 //		} catch (Exception e) {
 //			e.printStackTrace();
 //		}
 //	}
 
+	
+	/**
+	 * 선호장르 수정 
+	 * */
+	 public int void changeFavNo (Member member) {
+		 try {
+				int result = memberService.changeFavNo(member);
+				//MenuView.printMessage("선호장르 수정을 완료하였습니다.");
+			} catch (Exception e) {
+				FailView.printMessage(e.getMessage());
+			}
+		}
+	 }
+	
+	
+	
 	/**
 	 * 회원정보 삭제
 	 */

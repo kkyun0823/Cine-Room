@@ -18,6 +18,11 @@ public interface MemberDAO {
 	public int signUp(Member member) throws SQLException;
 	
 	/**
+	 *아이디 중복확인 
+	 * */
+	public boolean duplicateByMemberId(String memberID) throws SQLException;	
+	
+	/**
 	 * 회원정보 수정 기능
 	 * */
 	public int memberUpdate(Member member) throws SQLException;
