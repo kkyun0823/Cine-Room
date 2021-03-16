@@ -270,9 +270,9 @@ public class MenuView {
 		loop1:
 			while(true) {
 				try {
-					System.out.println("┌──────────────┐");
-					System.out.println("│ 1. 글조회  |  2. 이전메뉴  ");
-					System.out.println("└──────────────┘");
+					System.out.println("┌────────────────────────────┐");
+					System.out.println("│ 1. 글조회  |  2. 이전메뉴  │");
+					System.out.println("└────────────────────────────┘");
 					System.out.print("메뉴번호를 입력해주세요 > ");
 					int menuNo = Integer.parseInt(sc.nextLine());
 					switch (menuNo){
@@ -300,9 +300,9 @@ public class MenuView {
 		loop1:
 		while(true) {
 			try {
-				System.out.println("┌───────────────┐");
-				System.out.println("│ 1. 댓글작성  |  2. 이전메뉴  ");
-				System.out.println("└───────────────┘");
+				System.out.println("┌──────────────────────────────┐");
+				System.out.println("│ 1. 댓글작성  |  2. 이전메뉴  │");
+				System.out.println("└──────────────────────────────┘");
 				System.out.print("메뉴번호를 입력해주세요. > ");
 				int menuNo = Integer.parseInt(sc.nextLine());
 				switch (menuNo){
