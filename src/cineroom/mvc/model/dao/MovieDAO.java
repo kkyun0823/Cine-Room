@@ -3,7 +3,9 @@ package cineroom.mvc.model.dao;
 import java.sql.SQLException;
 import java.util.List;
 
+import cineroom.mvc.model.dto.Actor;
 import cineroom.mvc.model.dto.Movie;
+import cineroom.mvc.model.dto.Rate;
 
 public interface MovieDAO {
 	/**
@@ -39,7 +41,7 @@ public interface MovieDAO {
 	 * 
 	 * @return List<Movie> 검색된 영화 정보들을 리스트로 출력
 	 */
-	public List<Movie> moviesSelectByActor(String Actor) throws SQLException;
+	public List<Movie> moviesSelectByActor(String actor) throws SQLException;
 
 	/**
 	 * 개봉예정작인 영화를 검색한 결과를 출력
@@ -64,8 +66,12 @@ public interface MovieDAO {
 	public int movieDelete(int movieNo) throws SQLException;
 
 	/**
-	 * 영화번호로 검색한 영화를 반환하는 메소드
+	 * 영화에 출연한 배우들의 리스트를 반환하는 메소드
 	 * */
-	public Movie movieSelectByNo(int movieNo) throws SQLException;
+	public List<Actor> getActors(int movieNo) throws SQLException;
 
+	/**
+	 * 선택한 영화의 평점들을 담은 리스트를 반환하는 메소드
+	 * */
+	public List<Rate> getRates(int movieNo) throws SQLException;
 }

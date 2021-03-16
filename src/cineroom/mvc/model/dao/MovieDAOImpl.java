@@ -7,7 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import cineroom.mvc.model.dto.Actor;
 import cineroom.mvc.model.dto.Movie;
+import cineroom.mvc.model.dto.Rate;
 import cineroom.mvc.util.DBUtil;
 
 public class MovieDAOImpl implements MovieDAO {
@@ -17,7 +19,7 @@ public class MovieDAOImpl implements MovieDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select movie_title, to_char(release_date, 'YYYY-MM-DD'), running_time, movie_state, movie_director, genre_name"
+		String sql = "select movie_no, movie_title, to_char(release_date, 'YYYY-MM-DD'), running_time, movie_state, movie_director, genre_name"
 				+ " from movie join genre using (genre_no)";
 		List<Movie> movieList = new ArrayList<Movie>();
 		try {
@@ -25,10 +27,12 @@ public class MovieDAOImpl implements MovieDAO {
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				if (rs.getInt(4) != -1) {
-					Movie dto = new Movie(0, 0, rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4),
-							rs.getString(5));
-					dto.setGenreName(rs.getString(6));
+				if (rs.getInt(5) != -1) {
+					Movie dto = new Movie(rs.getInt(1), 0, rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5),
+							rs.getString(6));
+					dto.setGenreName(rs.getString(7));
+					dto.setActorList(this.getActors(rs.getInt(1)));
+					dto.setRateList(this.getRates(rs.getInt(1)));
 					movieList.add(dto);
 				}
 			}
@@ -56,6 +60,8 @@ public class MovieDAOImpl implements MovieDAO {
 					Movie dto = new Movie(rs.getInt(1), 0, rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5),
 							rs.getString(6));
 					dto.setGenreName(rs.getString(7));
+					dto.setActorList(this.getActors(rs.getInt(1)));
+					dto.setRateList(this.getRates(rs.getInt(1)));
 					movieList.add(dto);
 				}
 			}
@@ -70,7 +76,7 @@ public class MovieDAOImpl implements MovieDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select movie_title, to_char(release_date, 'YYYY-MM-DD'), running_time, movie_state, movie_director, genre_name"
+		String sql = "select movie_no, movie_title, to_char(release_date, 'YYYY-MM-DD'), running_time, movie_state, movie_director, genre_name"
 				+ " from movie join genre using (genre_no) where genre_no =  ?";
 		List<Movie> movieList = new ArrayList<Movie>();
 		try {
@@ -79,10 +85,12 @@ public class MovieDAOImpl implements MovieDAO {
 			ps.setInt(1, genreNo);
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				if (rs.getInt(4) != -1) {
-					Movie dto = new Movie(0, 0, rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4),
-							rs.getString(5));
-					dto.setGenreName(rs.getString(6));
+				if (rs.getInt(5) != -1) {
+					Movie dto = new Movie(rs.getInt(1), 0, rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5),
+							rs.getString(6));
+					dto.setGenreName(rs.getString(7));
+					dto.setActorList(this.getActors(rs.getInt(1)));
+					dto.setRateList(this.getRates(rs.getInt(1)));
 					movieList.add(dto);
 				}
 			}
@@ -97,7 +105,7 @@ public class MovieDAOImpl implements MovieDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select movie_title, to_char(release_date, 'YYYY-MM-DD'), running_time, movie_state, movie_director, genre_name"
+		String sql = "select movie_no, movie_title, to_char(release_date, 'YYYY-MM-DD'), running_time, movie_state, movie_director, genre_name"
 				+ " from movie join genre using (genre_no) where movie_director like ?";
 		List<Movie> movieList = new ArrayList<Movie>();
 		try {
@@ -106,10 +114,12 @@ public class MovieDAOImpl implements MovieDAO {
 			ps.setString(1, "%" + movieDirector + "%");
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				if (rs.getInt(4) != -1) {
-					Movie dto = new Movie(0, 0, rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4),
-							rs.getString(5));
-					dto.setGenreName(rs.getString(6));
+				if (rs.getInt(5) != -1) {
+					Movie dto = new Movie(rs.getInt(1), 0, rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5),
+							rs.getString(6));
+					dto.setGenreName(rs.getString(7));
+					dto.setActorList(this.getActors(rs.getInt(1)));
+					dto.setRateList(this.getRates(rs.getInt(1)));
 					movieList.add(dto);
 				}
 			}
@@ -120,13 +130,63 @@ public class MovieDAOImpl implements MovieDAO {
 	}
 
 	@Override
-	public List<Movie> moviesSelectByActor(String Actor) throws SQLException {
-		return null;
+	public List<Movie> moviesSelectByActor(String actor) throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "select movie_no, movie_title, to_char(release_date, 'YYYY-MM-DD'), running_time, movie_state, movie_director, genre_name "
+				+ "from genre join movie "
+				+ "using(genre_no) join actor "
+				+ "using(movie_no) "
+				+ "where actor_name like ?";
+		List<Movie> movieList = new ArrayList<Movie>();
+		List<Integer> tempList = new ArrayList<Integer>();
+		try {
+			con = DBUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setString(1,"%"+actor+"%");
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				if(tempList.contains(rs.getInt(1))) continue;
+				tempList.add(rs.getInt(1));
+				Movie dto = new Movie(rs.getInt(1), 0, rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5),
+						rs.getString(6));
+				dto.setGenreName(rs.getString(7));
+				dto.setActorList(this.getActors(rs.getInt(1)));
+				dto.setRateList(this.getRates(rs.getInt(1)));
+				movieList.add(dto);
+			}
+		} finally {
+			DBUtil.dbClose(con, ps, rs);
+		}
+		return movieList;
 	}
 
 	@Override
 	public List<Movie> moviesSelectByReleaseDate() throws SQLException {
-		return null;
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "select movie_no, movie_title, to_char(release_date, 'YYYY-MM-DD'), running_time, movie_state, movie_director, genre_name"
+				+ " from movie join genre using (genre_no) where movie_state = 1";
+		List<Movie> movieList = new ArrayList<Movie>();
+		//movie_state가 1인 상영작들만 불러옴
+		try {
+			con = DBUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				Movie dto = new Movie(rs.getInt(1), 0, rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5),
+						rs.getString(6));
+				dto.setGenreName(rs.getString(7));
+				dto.setActorList(this.getActors(rs.getInt(1)));
+				dto.setRateList(this.getRates(rs.getInt(1)));
+				movieList.add(dto);
+			}
+		} finally {
+			DBUtil.dbClose(con, ps, rs);
+		}
+		return movieList;
 	}
 
 	@Override
@@ -160,6 +220,7 @@ public class MovieDAOImpl implements MovieDAO {
 	public int movieDelete(int movieNo) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
+		//삭제 대신에 -1로 상태를 바꾸어 복구에 용이하게 설계
 		String sql = "update movie set movie_state = -1 where movie_no = ?";
 		int result = 0;
 		try {
@@ -176,29 +237,45 @@ public class MovieDAOImpl implements MovieDAO {
 	}
 
 	@Override
-	public Movie movieSelectByNo(int movieNo) throws SQLException {
+	public List<Actor> getActors(int movieNo) throws SQLException {
+		List<Actor> list = new ArrayList<Actor>();
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select movie_title, to_char(release_date, 'YYYY-MM-DD'), running_time, movie_state, movie_director, genre_name "
-				+ "from movie join genre using (genre_no) where movie_no = ?";
-		Movie movie = null;
+		String sql = "select actor_name from movie join actor using(movie_no) where movie_no = ?";
 		try {
 			con = DBUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, movieNo);
 			rs = ps.executeQuery();
-			if (rs.next()) {
-				if (rs.getInt(4) != -1) {
-					movie = new Movie(0, 0, rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4),
-							rs.getString(5));
-					movie.setGenreName(rs.getString(6));
-				}
+			while (rs.next()) {
+				list.add(new Actor(0, 0, rs.getString(1)));
 			}
 		} finally {
 			DBUtil.dbClose(con, ps, rs);
 		}
-		return movie;
+		return list;
+	}
+
+	@Override
+	public List<Rate> getRates(int movieNo) throws SQLException {
+		List<Rate> list = new ArrayList<Rate>();
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "select rate from rate join movie using(movie_no) where movie_no = ?";
+		try {
+			con = DBUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, movieNo);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				list.add(new Rate(0, null, 0, rs.getInt(1)));
+			}
+		} finally {
+			DBUtil.dbClose(con, ps, rs);
+		}
+		return list;
 	}
 
 }

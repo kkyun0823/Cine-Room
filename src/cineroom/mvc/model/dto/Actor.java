@@ -33,5 +33,13 @@ public class Actor {
 	public void setActorName(String actorName) {
 		this.actorName = actorName;
 	}
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(actorName);
+		builder.append(" ");
+		return builder.toString();
+	}
+	
 	
 }

@@ -17,8 +17,8 @@ public class Movie {
 	private String movieDirector;
 	private String genreName;
 	
-	private List<Rate> rateList = new ArrayList<Rate>();
-	private List<Actor> actorList = new ArrayList<Actor>();
+	private List<Rate> rateList = null;
+	private List<Actor> actorList = null;
 	
 	public Movie() {}
 	
@@ -129,7 +129,17 @@ public class Movie {
 		builder.append(runningTime);
 		builder.append(" | 영화감독=");
 		builder.append(movieDirector);
-		builder.append("]");
+		builder.append("]\n");
+		builder.append("\t 출연="+actorList+"\n");
+		double sum = 0;
+		double avg = 0;
+		for(Rate r : rateList) {
+			sum+=r.getRate();
+		}
+		if(rateList.size()!=0) {
+			avg = sum/rateList.size();
+		}
+		builder.append("\t 평점="+avg+"\n");
 		return builder.toString();
 	}
 }

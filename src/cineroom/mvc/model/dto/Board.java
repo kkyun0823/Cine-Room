@@ -121,8 +121,6 @@ public class Board {
 		builder.append(movieTitle);
 		builder.append(" | 글제목 : ");
 		builder.append(boardTitle);
-		builder.append(" | 한줄평 : ");
-		builder.append(boardContent);
 		builder.append(" | 등록일 : ");
 		builder.append(boardDate);
 		builder.append(" | 댓글수 : ");

@@ -152,10 +152,10 @@ public class MenuView {
 		loop1:
 		while(true) {
 			System.out.println("***********영화검색 메뉴입니다***********");
-			System.out.println("┌──────────────────────────────────────────────────────────────────────┐");
-			System.out.println("│  1.전체영화  |  2.제목으로 검색  |  3.장르로 검색  |  4.감독으로 검색│");
-			System.out.println("│            5.배우로 검색  |  6.상영작 검색  |  9.이전메뉴            │");
-			System.out.println("└──────────────────────────────────────────────────────────────────────┘");
+			System.out.println("┌────────────────────────────────────────────────────────────────────────┐");
+			System.out.println("│  1.전체영화  |  2.제목으로 검색  |  3.장르로 검색  |  4.감독으로 검색  │");
+			System.out.println("│            5.배우로 검색  |  6.상영작 검색  |  9.이전메뉴              │");
+			System.out.println("└────────────────────────────────────────────────────────────────────────┘");
 			System.out.println();
 			try {
 				System.out.print("검색하실 조건을 숫자로 입력해주세요. > ");
@@ -173,13 +173,17 @@ public class MenuView {
 					MenuView.printSearchGenre();
 					break;
 				case 4:
-					System.out.println("검색하실 감독 키워드를 입력해주세요. > ");
+					System.out.print("검색하실 감독 키워드를 입력해주세요. > ");
 					String director = sc.nextLine();
 					MovieController.moviesSelectByDirector(director);
 					break;
 				case 5:
+					System.out.print("검색하실 배우 키워드를 입력해주세요. > ");
+					String actor = sc.nextLine();
+					MovieController.moviesSelectByActor(actor);
 					break;
 				case 6:
+					MovieController.moviesSelectByReleaseDate();
 					break;
 				case 9 :
 					break loop1;

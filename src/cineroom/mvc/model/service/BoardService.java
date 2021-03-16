@@ -6,7 +6,6 @@ import java.util.List;
 import cineroom.mvc.model.dao.BoardDAO;
 import cineroom.mvc.model.dao.BoardDAOImpl;
 import cineroom.mvc.model.dto.Board;
-import cineroom.mvc.model.dto.Movie;
 
 public class BoardService {
 
@@ -36,8 +35,8 @@ public class BoardService {
 		return list;
 	}
 
-	public Board boardSelect(Board board) throws SQLException {
-		Board dto = boardDAO.boardSelect(board);
+	public Board boardSelectByNo(int boardNo) throws SQLException {
+		Board dto = boardDAO.boardSelectByNo(boardNo);
 		if (dto == null) {
 			throw new SQLException("글 번호에 해당하는 게시물은 없습니다.");
 		}

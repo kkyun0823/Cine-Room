@@ -34,10 +34,16 @@ public class MovieService {
 		return list;
 	}
 	
-	public Movie movieSelectByNo(int movieNo) throws SQLException{
-		Movie movie = movieDao.movieSelectByNo(movieNo);
-		return movie;
+	public List<Movie> moviesSelectByActor(String actor) throws SQLException{
+		List<Movie> list = movieDao.moviesSelectByActor(actor);
+		if(list.size()==0)throw new SQLException("ERROR : 배우 키워드'"+actor+"'로 검색된 영화정보가 없습니다.");
+		return list;
 	}
 	
+	public List<Movie> moviesSelectByReleaseDate() throws SQLException{
+		List<Movie> list = movieDao.moviesSelectByReleaseDate();
+		if(list.size()==0) throw new SQLException("ERROR : 현재 상영중인 영화정보가 없습니다.");
+		return list;
+	}
 
 }
