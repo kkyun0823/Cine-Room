@@ -164,10 +164,34 @@ public class MenuView {
 
 	public static void printAdminMenu() {
 		System.out.println("***********°ü¸®ÀÚ ¸Þ´ºÀÔ´Ï´Ù***********");
+		while(true) {
 		System.out.println("¦£¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¤");
 		System.out.println("¦¢  1.°Ô½ÃÆÇ °ü¸®  |  2.¿î¿µ °ü¸®  |  3.¿µÈ­ °ü¸®  |  9.·Î±×¾Æ¿ô  ¦¢");
 		System.out.println("¦¦¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¥");
 		System.out.println();
+		try {
+			System.out.print("ÀÌ¿ëÇÏ½Ç ¸Þ´º ¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä. > ");
+			int menuSelect = Integer.parseInt(sc.nextLine());
+			
+			switch(menuSelect) {
+			case 1:
+				printBoardMangeMenu();
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			case 9:
+				break;
+			default :
+				System.out.println("¹üÀ§ ³»ÀÇ ¼ýÀÚ¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+				break;
+			}
+		}catch (NumberFormatException e) {
+			FailView.printMessage("¼ýÀÚ·Î ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+		}
+		
+		}
 	}
 
 	public static void printMovieSearchMenu() {
@@ -502,8 +526,12 @@ public class MenuView {
 				MenuView.printModifyMenu(memberId);
 				break;
 			case 3:
+				List<Board> list = BoardController.boardSelectByID(memberId);
+				printBoardMyPageMenu(list, memberId);
 				break;
 			case 4:
+				List<Comments> colist =  CommentsController.commentsSelectByID(memberId);
+				printCommentMypageMenu(colist);
 				break;
 			case 9:
 				break loop2;
@@ -542,11 +570,192 @@ public class MenuView {
 		Member member = new Member(memberId, newPassword, null, null, 0);
 		MemberController.memberUpdate(member);
 	}
+	//¸¶ÀÌÆäÀÌÁö ³» ±Û Á¶È¸ ¹× »èÁ¦
+	public static void printBoardMyPageMenu (List<Board> list ,String memeberId) {
+		loop1:
+			while(true) {
+				try {
+					System.out.println("¦£¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¤");
+					System.out.println("¦¢ 1. ±ÛÁ¶È¸  | 2. ±Û»èÁ¦  3. ÀÌÀü¸Þ´º  ¦¢");
+					System.out.println("¦¦¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¥");
+					System.out.print("¸Þ´º¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä > ");
+					int menuNo = Integer.parseInt(sc.nextLine());
+					switch (menuNo){
+						case 1:
+							System.out.println();
+							System.out.print("±ÛÁ¶È¸¸¦ ¿øÇÏ½Ã´Â ±Û¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä > ");
+							int no1 = Integer.parseInt(sc.nextLine());
+							int boardNo1 = BoardController.getBoardNoByList(list, no1);
+							BoardController.boardSelectByNo(boardNo1);
+							break;
+						case 2:
+							System.out.println();
+							System.out.print("»èÁ¦ÇÏ½Ç ±Û¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä > ");
+							int no2 = Integer.parseInt(sc.nextLine());
+							int boardNo2 = BoardController.getBoardNoByList(list, no2);
+							BoardController.boardDelete(boardNo2);
+						case 3:
+							break loop1;
+						default:
+							System.out.println("¹üÀ§ ³»ÀÇ ¼ýÀÚ·Î ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+							break;
+					}
+				}catch (NumberFormatException e) {
+					System.out.println("¼ýÀÚ·Î ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+				}
+			}
+	}
+	
+	//¸¶ÀÌÆäÀÌÁö ³» ´ñ±Û º¸±â ¹× »èÁ¦
+	public static void printCommentMypageMenu(List<Comments> list) {
+		loop1:
+		while(true) {
+			try {
+				System.out.println("¦£¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¤");
+				System.out.println("¦¢ 1. ´ñ±Û»èÁ¦  |  2. ÀÌÀü¸Þ´º  ¦¢");
+				System.out.println("¦¦¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¥");
+				System.out.print("¸Þ´º¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä. > ");
+				int menuNo = Integer.parseInt(sc.nextLine());
+				switch (menuNo){
+					case 1:
+						System.out.println();
+						System.out.print("»èÁ¦ÇÏ½Ç ´ñ±Û¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä > ");
+						int no = Integer.parseInt(sc.nextLine());
+						int commentNo = CommentsController.getCommentsNoByList(list, no);
+						CommentsController.commentsDelete(commentNo);
+						break;
+					case 2:
+						break loop1;
+					default:
+						System.out.println("¹üÀ§ ³»ÀÇ ¼ýÀÚ·Î ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+						break;
+				}
+			}catch (NumberFormatException e) {
+				System.out.println("¼ýÀÚ·Î ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+			}
+		}
+	}
+	//°ü¸®ÀÚ °èÁ¤À¸·Î Á¢¼Ó ÈÄ °Ô½ÃÆÇ °ü¸® ¸Þ¼Òµå
+	public static void printBoardMangeMenu() {
+		loop1:
+		while(true) {
+			System.out.println("***********¸®ºä °Ô½ÃÆÇ °ü¸® ¸Þ´ºÀÔ´Ï´Ù***********");
+			System.out.println("¦£¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¤");
+			System.out.println("¦¢  1.ÀüÃ¼ °Ô½ÃÆÇ °ü¸®  |  2.Àå¸£º° °Ô½ÃÆÇ °ü¸® |  9.ÀÌÀü¸Þ´º  ¦¢");
+			System.out.println("¦¦¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¥");
+			System.out.println();
+			try {
+				System.out.print("ÀÌ¿ëÇÏ½Ç °Ô½ÃÆÇÀ» ¹øÈ£·Î ÀÔ·ÂÇØÁÖ¼¼¿ä. > ");
+				int menu = Integer.parseInt(sc.nextLine());
+				switch (menu) {
+				case 1:
+					List<Board> list = BoardController.boardSelectByAll();
+					printBoardMangeByNoMenu(list);
+						
+					break;
+				case 2:
+					printSearchBoardMangeByGenre();
+					break;
+				case 9:
+					break loop1;
+				default:
+					System.out.println("¹üÀ§ ³»ÀÇ ¼ýÀÚ·Î ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+					break;
+				}
+			}catch (NumberFormatException e) {
+				System.out.println("¼ýÀÚ·Î ÀÔ·ÂÇØ ÁÖ¼¼¿ä.");
+			}
+		}
+	}
+	
+	public static void printBoardMangeByNoMenu (List<Board> list ) {
+		loop1:
+			while(true) {
+				try {
+					System.out.println("¦£¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¤");
+					System.out.println("¦¢ 1. ±ÛÁ¶È¸  | 2. ±Û»èÁ¦  3. ÀÌÀü¸Þ´º  ¦¢");
+					System.out.println("¦¦¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¥");
+					System.out.print("¸Þ´º¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä > ");
+					int menuNo = Integer.parseInt(sc.nextLine());
+					switch (menuNo){
+						case 1:
+							System.out.println();
+							System.out.print("±ÛÁ¶È¸¸¦ ¿øÇÏ½Ã´Â ±Û¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä > ");
+							int no1 = Integer.parseInt(sc.nextLine());
+							int boardNo1 = BoardController.getBoardNoByList(list, no1);
+							BoardController.boardSelectByNo(boardNo1);
+							printCommentMangeMenu(boardNo1);
+							break;
+						case 2:
+							System.out.println();
+							System.out.print("»èÁ¦ÇÏ½Ç ±Û¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä > ");
+							int no2 = Integer.parseInt(sc.nextLine());
+							int boardNo2 = BoardController.getBoardNoByList(list, no2);
+							BoardController.boardDelete(boardNo2);
+						case 3:
+							break loop1;
+						default:
+							System.out.println("¹üÀ§ ³»ÀÇ ¼ýÀÚ·Î ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+							break;
+					}
+				}catch (NumberFormatException e) {
+					System.out.println("¼ýÀÚ·Î ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+				}
+			}
+	}
+	
+	public static void printSearchBoardMangeByGenre() {
+		while(true) {
+			MenuView.printGenre();
+			try {
+				System.out.print("°Ë»öÇÏ½Ç Àå¸£¸¦ ¹øÈ£·Î ÀÔ·ÂÇØÁÖ¼¼¿ä. > ");
+				int genreNo = Integer.parseInt(sc.nextLine());
+				if(genreNo>18||genreNo<=0) {
+					System.out.println("¹üÀ§ ³»ÀÇ ¼ýÀÚ·Î ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+					continue;
+				}
+				List<Board> list= BoardController.boardSelectByGenre(genreNo);
+				printBoardMangeByNoMenu(list);
+				break;
+			}catch (NumberFormatException e) {
+				System.out.println("¼ýÀÚ·Î ÀÔ·ÂÇØ ÁÖ¼¼¿ä.");
+			}
+		}
+	}
+	
+	public static void printCommentMangeMenu(int boardNo) {
+		loop1:
+		while(true) {
+			try {
+				System.out.println("¦£¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¤");
+				System.out.println("¦¢ 1. ´ñ±Û»èÁ¦  |  2. ÀÌÀü¸Þ´º  ¦¢");
+				System.out.println("¦¦¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¥");
+				System.out.print("¸Þ´º¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä. > ");
+				int menuNo = Integer.parseInt(sc.nextLine());
+				switch (menuNo){
+					case 1:
+						System.out.println();
+						System.out.print("»èÁ¦ÇÏ½Ç ´ñ±Û¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä > ");
+						int no = Integer.parseInt(sc.nextLine());
+						List<Comments> list = CommentsController.commentsSelectByBoardNo(boardNo);
+						int commentNo = CommentsController.getCommentsNoByList(list, no);
+						CommentsController.commentsDelete(commentNo);
+						break;
+					case 2:
+						break loop1;
+					default:
+						System.out.println("¹üÀ§ ³»ÀÇ ¼ýÀÚ·Î ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+						break;
+				}
+			}catch (NumberFormatException e) {
+				System.out.println("¼ýÀÚ·Î ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+			}
+		}
+		
+	}//°ü¸®ÀÚ °Ô½ÃÆÇ ¸Þ´º ¸Þ¼Òµå ³¡
 	
 	//°ü¸®ÀÚ °èÁ¤ ¸¸µç ÀÌÈÄ¿¡ ÁøÇà
-	public static void printBoardMangeMenu() {
-		
-	}
+	
 
 	public static void printOperationMangeMenu() {
 		

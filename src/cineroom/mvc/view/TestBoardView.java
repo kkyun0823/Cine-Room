@@ -117,13 +117,7 @@ public class TestBoardView {
 			int boardNo = list.get(no-1).getBoardNo();
 			return boardNo;
 		}
-		
-	/**
-	 * 등록, 수정, 삭제인 경우에 성공메시지 출력
-	 **/
-	public static void printMessage(String message) {
-		System.out.println(message);
-	}
+	
 	/**
 	 * 리뷰게시판 관리자 메뉴
 	 * */
@@ -245,7 +239,7 @@ public class TestBoardView {
 		
 	}
 	
-	List<Board> list = boardSelectByID(memberID);
+	//List<Board> list = boardSelectByID(memberID);
 	
 	
 	public static void main(String[] args)throws SQLException {
