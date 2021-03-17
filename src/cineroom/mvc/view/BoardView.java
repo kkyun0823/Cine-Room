@@ -8,7 +8,7 @@ import cineroom.mvc.controller.CommentsController;
 import cineroom.mvc.controller.MovieController;
 import cineroom.mvc.model.dto.Board;
 import cineroom.mvc.model.dto.Comments;
-
+									
 public class BoardView {
 	private static Scanner sc = new Scanner(System.in);
 	
