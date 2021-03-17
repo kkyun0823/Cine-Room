@@ -158,9 +158,9 @@ public class BoardView {
 		EndView.printBoardList(list);
 		loop4: while (true) {
 			try {
-				System.out.println("┌────────────────────────────┐");
-				System.out.println("│ 1. 글조회  | 2. 글삭제  │ 3. 이전메뉴  │");
-				System.out.println("└────────────────────────────┘");
+				System.out.println("┌───────────────────────────────────────┐");
+				System.out.println("│ 1. 글조회  | 2. 글삭제  │ 3. 이전메뉴 │");
+				System.out.println("└───────────────────────────────────────┘");
 				System.out.print("메뉴번호를 입력해주세요 > ");
 				int menuNo = Integer.parseInt(sc.nextLine());
 				switch (menuNo) {
@@ -228,9 +228,9 @@ public class BoardView {
 
 		loop6: while (true) {
 			System.out.println("***********리뷰 게시판 관리 메뉴입니다***********");
-			System.out.println("┌──────────────────────────────────────────────────────────────────┐");
-			System.out.println("│  1.전체 게시판 관리  |  2.장르별 게시판 관리 |  9.이전메뉴  │");
-			System.out.println("└──────────────────────────────────────────────────────────────────┘");
+			System.out.println("┌────────────────────────────────────────────────────────────────┐");
+			System.out.println("│  1.전체 게시판 관리  |  2.장르별 게시판 관리 |  9.이전메뉴     │");
+			System.out.println("└────────────────────────────────────────────────────────────────┘");
 			System.out.println();
 			try {
 				System.out.print("이용하실 게시판을 번호로 입력해주세요. > ");
@@ -261,9 +261,9 @@ public class BoardView {
 		EndView.printBoardList(list);
 		loop7: while (true) {
 			try {
-				System.out.println("┌────────────────────────────┐");
+				System.out.println("┌────────────────────────────────────────┐");
 				System.out.println("│ 1. 글조회  | 2. 글삭제  │ 3. 이전메뉴  │");
-				System.out.println("└────────────────────────────┘");
+				System.out.println("└────────────────────────────────────────┘");
 				System.out.print("메뉴번호를 입력해주세요 > ");
 				int menuNo = Integer.parseInt(sc.nextLine());
 				switch (menuNo) {
