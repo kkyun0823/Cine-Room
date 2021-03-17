@@ -139,6 +139,7 @@ public class Movie {
 		if(rateList.size()!=0) {
 			avg = sum/rateList.size();
 		}
+		avg = Math.round((avg*100))/100.0;
 		builder.append("\t ∆Ú¡°="+avg+"\n");
 		return builder.toString();
 	}

@@ -36,10 +36,6 @@ public class MemberService {
 		if (member == null) {
 			throw new SQLException("해당하는 회원정보가 존재하지 않습니다.");
 		}
-		Session session = new Session(memberId);
-		SessionSet sessionSet = SessionSet.getInstance();
-		sessionSet.add(session);
-
 		return member;
 	}
 

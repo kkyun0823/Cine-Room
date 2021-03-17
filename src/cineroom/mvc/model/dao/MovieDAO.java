@@ -79,4 +79,8 @@ public interface MovieDAO {
 	 * */
 	public List<Movie> recommendMovie(String memberId) throws SQLException;
 
+	/**
+	 * 영화에 출연배우 추가하는 메소드
+	 * */
+	public int addActors(List<String> actorList, int movieNo) throws SQLException;
 }

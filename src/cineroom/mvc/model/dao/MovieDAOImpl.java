@@ -337,4 +337,24 @@ public class MovieDAOImpl implements MovieDAO {
 		}
 		return genreList;
 	}
+
+	@Override
+	public int addActors(List<String> actorList, int movieNo) throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		int result = 0;
+		String sql = "insert into actor values(actor_seq.nextval, ?, ?)";
+		for(int i = 0; i <actorList.size(); i++) {
+			try {
+				con = DBUtil.getConnection();
+				ps = con.prepareStatement(sql);
+				ps.setInt(1, movieNo);
+				ps.setString(2, actorList.get(i));
+				result+= ps.executeUpdate();
+			}finally {
+				DBUtil.dbClose(con, ps);
+			}
+		}
+		return result;
+	}
 }

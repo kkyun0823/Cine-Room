@@ -66,5 +66,11 @@ public class MovieService {
 		List<Movie> result = movieDao.recommendMovie(memberId);
 		return result;
 	}
+	
+	public int addActors(List<String> actorList, int movieNo) throws SQLException{
+		int result = movieDao.addActors(actorList, movieNo);
+		if(result==0) throw new SQLException("배우가 등록되지 않았습니다.");
+		return result;
+	}
 
 }

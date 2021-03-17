@@ -5,6 +5,8 @@ import java.util.List;
 
 import cineroom.mvc.model.dto.Member;
 import cineroom.mvc.model.service.MemberService;
+import cineroom.mvc.session.Session;
+import cineroom.mvc.session.SessionSet;
 import cineroom.mvc.view.EndView;
 import cineroom.mvc.view.FailView;
 import cineroom.mvc.view.MenuView;
@@ -33,6 +35,9 @@ public class MemberController {
 			Member member = memberService.login(memberId, memberPassword);
 			if (member.getMemberState() == 1) {
 				System.out.println(memberId + "´Ô ¹Ý°©½À´Ï´Ù.!");
+				Session session = new Session(memberId);
+				SessionSet sessionSet = SessionSet.getInstance();
+				sessionSet.add(session);
 				MenuView.printUserMenu(memberId);
 			} else if (member.getMemberState() == 2) {
 				MenuView.printAdminMenu(memberId);

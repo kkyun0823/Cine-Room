@@ -105,4 +105,12 @@ public class MovieController {
 			FailView.printMessage(e.getMessage());
 		}
 	}
+	public static void addActors(List<String> actorList, int movieNo) {
+		try {
+			int result = movieService.addActors(actorList, movieNo);
+			EndView.printMessage(result+"명의 배우가 등록되었습니다.");
+		}catch (SQLException e) {
+			FailView.printMessage(e.getMessage());
+		}
+	}
 }

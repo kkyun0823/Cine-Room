@@ -535,9 +535,15 @@ public class MenuView {
 		System.out.print("등록하실 영화의 영화감독을 입력해주세요.>");
 		String movieDirector = sc.nextLine();
 		System.out.print("등록하실 영화의 출연배우를 쉼표(,)로 구분하여 입력해주세요.>");
-		
+		String actor = sc.nextLine();
+		String[] actorArr = actor.split(",");
+		List<String> actorList = new ArrayList<String>();
+		for(String s : actorArr) {
+			actorList.add(s);
+		}
 		Movie movie = new Movie(movieNo, genreNo, movieTitle, releaseDate, runningTime, 0, movieDirector);
 		MovieController.addMovie(movie);
+		MovieController.addActors(actorList, movieNo);
 	}
 	
 	public static void updateMovieMenu() {
