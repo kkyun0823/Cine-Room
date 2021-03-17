@@ -47,7 +47,7 @@ public class CommentsDAOImpl implements CommentsDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<Comments> list = new ArrayList<Comments>();
-		String sql = "select * from comments where member_id = ?";
+		String sql = "select * from comments where member_id = ? order by comments_no";
 		try {
 			con = DBUtil.getConnection();
 			ps = con.prepareStatement(sql);

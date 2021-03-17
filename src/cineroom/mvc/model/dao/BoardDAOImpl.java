@@ -21,7 +21,7 @@ public class BoardDAOImpl implements BoardDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<Board> list = new ArrayList<Board>();
-		String sql = "select * from board join movie using (movie_no) order by board_date desc";
+		String sql = "select * from board join movie using (movie_no) order by board_no";
 		try {
 			con = DBUtil.getConnection();
 			ps = con.prepareStatement(sql);
@@ -55,7 +55,7 @@ public class BoardDAOImpl implements BoardDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<Board> list = new ArrayList<Board>();
-		String sql = "select * from board join movie using (movie_no) where genre_no = ?";
+		String sql = "select * from board join movie using (movie_no) where genre_no = ? order by board_no";
 		try {
 			con = DBUtil.getConnection();
 			ps = con.prepareStatement(sql);
@@ -89,7 +89,7 @@ public class BoardDAOImpl implements BoardDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<Board> list = new ArrayList<Board>();
-		String sql = "select * from board join movie using (movie_no) where member_id = ?";
+		String sql = "select * from board join movie using (movie_no) where member_id = ? order by board_no";
 		try {
 			con = DBUtil.getConnection();
 			ps = con.prepareStatement(sql);
