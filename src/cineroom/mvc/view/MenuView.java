@@ -387,7 +387,7 @@ public class MenuView {
 
 	public static void printMyPageMenu(String memberId) {
 		////////////// 비밀번호수정, 선호장르 수정, 작성한 글 보기, 작성한 댓글 보기
-		 while (true) {
+		 loop1: while (true) {
 			System.out.println(
 					"┌──────────────────────────────────────────────────────────────────────────────────────────────────┐");
 			System.out.println("│  1.비밀번호 수정  |  2.선호장르 수정  |  3.내가 작성한 글  |  4.내가 작성한 댓글  |  9.이전메뉴  │");
@@ -405,7 +405,6 @@ public class MenuView {
 				break;
 			case 3:
 				List<Board> list = BoardController.boardSelectByID(memberId);
-				
 				if(list!= null)
 				BoardView.printBoardMyPageMenu(list, memberId);
 				break;
@@ -415,8 +414,7 @@ public class MenuView {
 				BoardView.printCommentMypageMenu(colist,memberId);
 				break;
 			case 9:
-				printUserMenu(memberId);
-				break;
+				break loop1;
 			default:
 				break;
 			}

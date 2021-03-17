@@ -47,7 +47,6 @@ public class BoardController {
 	public static List<Board> boardSelectByID(String memberId) {
 		try {
 			List<Board> list = boardService.boardSelectByID(memberId);
-			
 			return list;
 		} catch (SQLException e) {
 			FailView.printMessage(e.getMessage());
@@ -102,7 +101,6 @@ public class BoardController {
 		int boardNo = list.get(no-1).getBoardNo();
 		return boardNo;
 		}catch(IndexOutOfBoundsException e) {
-			
 			return -1;
 		}
 	}

@@ -48,13 +48,13 @@ public class EndView {
 	 * 글번호에 해당하는 게시판 검색 출력하기
 	 */
 	public static void printBoardByNo(Board dto) {
-		System.out.println("┌───────────────────────┐");
+		System.out.println("───────────────────────");
 		System.out.println("    영화제목 |  " + dto.getMovieTitle() );
 		System.out.println("    글제목   |  " + dto.getBoardTitle());
 		System.out.println("    글내용   |  " +dto.getBoardContent());
 		System.out.println("    작성자   |  " +dto.getMemberId());
 		System.out.println("    등록일   |  " +dto.getBoardDate());
-		System.out.println("└───────────────────────┘ ");
+		System.out.println("───────────────────────");
 		System.out.println(" <댓글>");
 		int i = 1;
 		for(Comments com : dto.getCommentsList()) {
