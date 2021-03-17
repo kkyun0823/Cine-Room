@@ -299,7 +299,7 @@ public class MovieDAOImpl implements MovieDAO {
 		List<Movie> result = new ArrayList<Movie>();
 		List<String> genreList = this.getFavorGenreName(memberId);
 		String sql = "select movie_no, movie_title, genre_name from movie join genre using(genre_no) "
-				+ "where genre_name =?";
+				+ "where genre_name =? and movie_state= 1";
 		for(int i = 0 ; i <genreList.size(); i++) {
 			try {
 				con = DBUtil.getConnection();

@@ -165,7 +165,7 @@ public class MenuView {
 	}
 
 	private static void printRecommenMsg(String memberId) {
-		
+		MovieController.recommendMovie(memberId);
 	}
 
 	public static void printAdminMenu(String memberId) {
